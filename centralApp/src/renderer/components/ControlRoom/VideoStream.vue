@@ -1,14 +1,7 @@
 <template>
   <div>
     <div class="title">Current Stream</div>
-    <video preload width="480" height="320" src="https://08-lvl3-pdl.vimeocdn.com/01/4289/4/121445495/343291942.mp4?expires=1511909831&token=0becf46b3f27aa74ffcf7" controls>
-      Your browser does not support the video tag.
-    </video>
-
-    <div class="videoWrapper">
-      <!-- Copy & Pasted from YouTube -->
-      <iframe width="560" height="349" src="http://www.youtube.com/embed/n_dZNLr2cME?rel=0&hd=1" frameborder="0" allowfullscreen></iframe>
-    </div>
+    <video id='localVideo' width="480" height="320" autoplay></video>
   </div>
 </template>
 
@@ -21,6 +14,20 @@
       }
     }
   }
+</script>
+
+<script>
+  window.addEventListener('load', function (evt) {
+    navigator.getUserMedia({audio: false, video: true},
+      function (stream) {
+        let video = document.getElementById('localVideo')
+        video.src = window.URL.createObjectURL(stream)
+      },
+      function (err) {
+        console.log('The following error occurred: ' + err.name)
+      }
+    )
+  })
 </script>
 
 <style scoped>

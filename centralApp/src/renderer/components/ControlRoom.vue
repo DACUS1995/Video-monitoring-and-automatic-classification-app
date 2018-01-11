@@ -30,11 +30,11 @@
 
           <!--MAIN CONTENT-->
           <div class="pane">
-            Content
             <video-stream></video-stream>
           </div>
         </div>
       </div>
+
       <footer class="toolbar toolbar-footer">
         <h1 class="title">Version 1.0 Beta</h1>
       </footer>
