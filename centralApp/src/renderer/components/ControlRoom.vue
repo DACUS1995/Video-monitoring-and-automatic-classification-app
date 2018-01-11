@@ -74,6 +74,12 @@
       }
     }
   }
+
+  let {ipcRenderer, remote} = require('electron');
+
+  ipcRenderer.on('message-from-remote', (event, arg) => {  
+    console.log("Message from main process: " + arg);
+  });
 </script>
 
 <style>

@@ -1,8 +1,6 @@
 'use strict'
 
-import { app, BrowserWindow } from 'electron'
-
-require('./ControlServer/ExpressServer.js')
+import { app, BrowserWindow, ipcMain } from 'electron'
 
 /**
  * Set `__static` path to static files in production
@@ -29,6 +27,8 @@ function createWindow () {
 
   mainWindow.loadURL(winURL)
 
+  require('./ControlServer/ExpressServer.js')(ipcMain, mainWindow)
+  
   mainWindow.on('closed', () => {
     mainWindow = null
   })
