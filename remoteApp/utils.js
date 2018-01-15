@@ -1,5 +1,5 @@
 module.exports = 
-class utils{
+class SocketHandle{
     constructor(){}
 
     static makeMessage(strSubject, strMessage){
@@ -18,7 +18,7 @@ class utils{
     }
 
     static handleIncomingMessage(strStringObject){
-        let objDecodedMessage = utils.decodeMessage(strStringObject);
+        let objDecodedMessage = SocketHandle.decodeMessage(strStringObject);
 
         if(objDecodedMessage.subject == "message")
         {

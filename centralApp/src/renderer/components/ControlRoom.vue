@@ -32,11 +32,16 @@
           <div class="pane">
             <video-stream></video-stream>
           </div>
+
+          <!--REMOTE DEVICES LIST-->
+          <div class="pane sidebar">
+            <remote-station></remote-station>
+          </div>
         </div>
       </div>
 
       <footer class="toolbar toolbar-footer">
-        <h1 class="title">Version 1.0 Beta</h1>
+        <h1 class="title">Version 2.0 Beta</h1>
       </footer>
     </div>
   </div>
@@ -44,9 +49,10 @@
 
 <script>
   import VideoStream from './ControlRoom/VideoStream'
+  import RemoteStation from './ControlRoom/RemoteStation'
 
   export default {
-    components: { VideoStream },
+    components: { VideoStream, RemoteStation },
     data () {
       return {
         name: 'Control Room',

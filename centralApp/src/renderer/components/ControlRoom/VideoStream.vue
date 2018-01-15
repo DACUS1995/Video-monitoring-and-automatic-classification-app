@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="title">Current Stream</div>
+  <div align="middle" class="polaroid">
+    <div class="title">Selected Device Stream: </div>
     <video id='localVideo' width="480" height="320" autoplay></video>
   </div>
 </template>
@@ -31,6 +31,19 @@
 </script>
 
 <style scoped>
+  div.polaroid {
+    padding: 10px 10px 20px 10px;
+    border: 1px solid #BFBFBF;
+    background-color: white;
+    box-shadow: 10px 10px 5px #aaaaaa;
+  }
+
+  #localVideo{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   .title {
     color: #888;
     font-size: 18px;

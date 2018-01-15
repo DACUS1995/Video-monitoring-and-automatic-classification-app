@@ -10,7 +10,7 @@ function (ipcMain, mainWindow)  {
 	
 	const path = require('path')
 	const bodyParser = require('body-parser')
-	const utils = require("./utils.js");
+	const SocketHandle = require("./SocketHandle.js");
 	// var routes = require('routes')
 
 
@@ -34,7 +34,7 @@ function (ipcMain, mainWindow)  {
 		console.log("ws - connection established with: " + req.connection.remoteAddress)
 
 		ws.on('message', function incoming (message) {
-			utils.handleIncomingMessage(message)
+			SocketHandle.handleIncomingMessage(message)
 		})
 
 	})
