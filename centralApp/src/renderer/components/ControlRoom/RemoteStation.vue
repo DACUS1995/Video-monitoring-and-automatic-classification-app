@@ -23,19 +23,20 @@
   </div>
 </template>
 
+
 <script>
   export default {
     data () {
       return {
-        name: "Remote Station",
+        name: 'Remote Station',
         remoteList: [
           {
-            label: "Name_1",
+            label: 'Name_1',
             status: "connected"
           },
           {
-            label: "Name_2",
-            status: "connection pending"
+            label: 'Name_2',
+            status: 'connection pending'
           }
         ]
       }
@@ -43,9 +44,6 @@
   }
 </script>
 
-<script>
-
-</script>
 
 <style scoped>
   .title {
