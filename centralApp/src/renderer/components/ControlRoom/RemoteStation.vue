@@ -7,8 +7,8 @@
       <li class="list-group-header">
         <input class="form-control" type="text" placeholder="Search for device">
       </li>
-      <li class="list-group-item" v-for="(item, index) in remoteList">
-        <span class="icon icon-user"></span>
+      <li class="list-group-item" v-for="(item, index) in remoteList" :class="{ 'selected': item.clicked }" @click="toggle(item)">
+        <span class="icon icon-network"></span>
         <div class="media-body">
           <strong>{{ item.label }}</strong>
           <p>{{ item.status }}</p>
@@ -32,13 +32,25 @@
         remoteList: [
           {
             label: 'Name_1',
-            status: "connected"
+            status: "connected",
+            clicked: false
           },
           {
             label: 'Name_2',
-            status: 'connection pending'
+            status: 'connection pending',
+            clicked: false
           }
         ]
+      }
+    },
+    methods: {
+      toggle: function (item) {
+        for(let listItem of this.remoteList)
+        {
+          listItem.clicked = false;
+        }
+
+        item.clicked = !item.clicked;
       }
     }
   }
@@ -46,6 +58,10 @@
 
 
 <style scoped>
+  .active {
+    background-color: coral;
+  }
+
   .title {
     color: #888;
     font-size: 18px;

@@ -8,25 +8,7 @@
         <div class="pane-group">
 
           <!--LEFT SIDEBAR-->
-          <div class="pane-sm sidebar">
-            <ul class="list-group">
-              <li class="list-group-header">
-                <input class="form-control" type="text" placeholder="Search for someone">
-              </li>
-              <li class="list-group-item" v-for="(item, index) in leftList">
-                <span class="icon icon-user"></span>
-                <div class="media-body">
-                  <strong>{{ item.title }}</strong>
-                  <p>{{ item.content }}</p>
-                </div>
-              </li>
-              <li class="list-group-item">
-                <button class="btn btn-large btn-primary icon icon-plus-circled">
-                  Add new route
-                </button>
-              </li>
-            </ul>
-          </div>
+					<route-selection></route-selection>
 
           <!--MAIN CONTENT-->
           <div class="pane">
@@ -50,22 +32,15 @@
 <script>
   import VideoStream from './ControlRoom/VideoStream'
   import RemoteStation from './ControlRoom/RemoteStation'
+  import RouteSelection from './ControlRoom/RouteSelection'	
+
+  // TODO use the existing vuex store to manage data
 
   export default {
-    components: { VideoStream, RemoteStation },
+    components: { VideoStream, RemoteStation, RouteSelection },
     data () {
       return {
-        name: 'Control Room',
-        leftList: [
-          {
-            title: 'title_1',
-            content: 'content_1'
-          },
-          {
-            title: 'title_2',
-            content: 'content_2'
-          }
-        ]
+        name: 'Control Room'
       }
     },
     methods: {

@@ -6,7 +6,6 @@
 </template>
 
 <script>
-  console.log('~@')
   export default {
     data () {
       return {
@@ -14,19 +13,17 @@
       }
     }
   }
-</script>
 
-<script>
   window.addEventListener('load', function (evt) {
-    navigator.getUserMedia({audio: false, video: true},
-      function (stream) {
-        let video = document.getElementById('localVideo')
-        video.src = window.URL.createObjectURL(stream)
-      },
-      function (err) {
-        console.log('The following error occurred: ' + err.name)
-      }
-    )
+    // navigator.getUserMedia({audio: false, video: true},
+    //   function (stream) {
+    //     let video = document.getElementById('localVideo')
+    //     video.src = window.URL.createObjectURL(stream)
+    //   },
+    //   function (err) {
+    //     console.log('The following error occurred: ' + err.name)
+    //   }
+    // )
   })
 </script>
 
