@@ -1,4 +1,5 @@
 const os = require("os");
+const Config = require("Config.js");
 
 module.exports = 
 class Connection
@@ -13,7 +14,7 @@ class Connection
 
     makeRTCConnection()
     {
-        // TODO implement shit and stuff
+        
     }
 
     getNetworkAdress()
