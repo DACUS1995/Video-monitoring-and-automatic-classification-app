@@ -1,5 +1,5 @@
 module.exports = 
-class SocketHandle
+class SocketHandler
 {
     constructor(){}
 
@@ -22,7 +22,7 @@ class SocketHandle
 
     static handleIncomingMessage(strStringObject)
     {
-        let objDecodedMessage = SocketHandle.decodeMessage(strStringObject);
+        let objDecodedMessage = SocketHandler.decodeMessage(strStringObject);
 
         if(objDecodedMessage.subject == "message")
         {

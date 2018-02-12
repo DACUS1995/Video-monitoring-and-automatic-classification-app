@@ -1,5 +1,5 @@
 const WebSocket = require('ws');
-const SocketHandle = require("./SocketHandle.js");
+const SocketHandler = require("./SocketHandler.js");
 const Connection = require("./Connection.js");
 
 // The remoteApp must be given the centralApp local adress as 
@@ -12,23 +12,24 @@ ws.on('open', function open() {
 
 	// Could be used to make sure the connection is alive
 	let interval = setInterval(() => {
+		console.log("Heartbeat sent");
+		
 		ws.send(
-			SocketHandle.makeMessage("heartbeat", "heartbeat")
-		);
-	}, 5000)
+			SocketHandler.makeMessage("heartbeat", "heartbeat")
+		);	
+	}, 5000);
 
 	// Prepare Signaling and Create the WebRTC connection to Main App
-	let nStationID = SocketHandle.generateStationID();
-	let Connection = new Connection(ws, nStationID);
+	let nStationID = SocketHandler.generateStationID();
+	let connection = new Connection(ws, nStationID);
 
-	Connection.makeRTCConnection();
+	connection.sendIdentificationData();
+	connection.makeRTCConnection();
 });
 
 ws.on('message', function incoming(data) {
-	SocketHandle.handleIncomingMessage(data);
+	SocketHandler.handleIncomingMessage(data);
 });
-
-
 
 
 // Template of mesage JSON

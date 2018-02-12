@@ -40,10 +40,14 @@
     components: { VideoStream, RemoteStation, RouteSelection },
     data () {
       return {
-        name: 'Control Room'
+        name: 'Control Room',
+        connections: []
       }
     },
     methods: {
+      triggered (){
+        alert("Triggered Like a Biatch");
+      },
       open (link) {
         this.$electron.shell.openExternal(link)
       },
@@ -60,6 +64,10 @@
 
   ipcRenderer.on('message-from-remote', (event, arg) => {  
     console.log("Message from main process: " + arg);
+  });
+
+  ipcRenderer.on('new-connection-setup', (event, args) => {
+    this.triggered();
   });
 </script>
 

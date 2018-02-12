@@ -6,17 +6,17 @@
 	    </li>
 	    <li class="list-group-item" v-for="(item, index) in leftList">
 	      <span class="icon icon-address"></span>
-			<div>
-				<select class="form-control">
-					<option>Option one</option>
-  				<option>Option two</option>
-				</select>
-			</div>
+				<div>
+					<select class="form-control">
+						<option>Option one</option>
+  					<option>Option two</option>
+					</select>
+				</div>
 	     	<div class="media-body">
-	       	<strong>{{ item.title }}</strong>
-	       	<p>{{ item.content }}</p>
-	     </div>
-	    </li>
+	      	<strong>{{ item.title }}</strong>
+	      	<p>{{ item.content }}</p>
+	     	</div>
+	  	</li>
 	    <li class="list-group-item">
 	      <button class="btn btn-large btn-primary icon icon-plus-circled">
 	        Add new route

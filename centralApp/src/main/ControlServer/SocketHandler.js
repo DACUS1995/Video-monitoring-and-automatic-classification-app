@@ -1,5 +1,5 @@
 
-class SocketHandle{
+class SocketHandler{
     constructor(){}
 
     static makeMessage(strSubject, strMessage){
@@ -18,7 +18,7 @@ class SocketHandle{
     }
 
     static handleIncomingMessage(strStringObject){
-        let objDecodedMessage = SocketHandle.decodeMessage(strStringObject);
+        let objDecodedMessage = SocketHandler.decodeMessage(strStringObject);
 
         if(objDecodedMessage.subject == "message")
         {
@@ -26,7 +26,20 @@ class SocketHandle{
             console.log("Message from remote: " + objDecodedMessage.message);
             mainWindow.webContents.send('message-from-remote', objDecodedMessage.message)
         }
+
+        if(objDecodedMessage.subject == "setupConnection")
+        {
+            mainWindow.weContents.send('new-connection-setup', objDecodedMessage.message);
+            arrConnections.push(objDecodedMessage.message);
+        }
+
+        // Connection health check
+        if(objDecodedMessage.subject == "heartbeat")
+        {
+            //TODO: Implement counter that must be reseted to make sure the connection is alive
+        }
     }
 }
 
-export default SocketHandle;
+console.log("Here");
+export default SocketHandler;

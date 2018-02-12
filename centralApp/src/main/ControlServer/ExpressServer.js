@@ -10,13 +10,16 @@ function (ipcMain, mainWindow)  {
 	
 	const path = require('path')
 	const bodyParser = require('body-parser')
-	const SocketHandle = require("./SocketHandle.js");
+	const SocketHandler = require("./SocketHandler.js");
 	// var routes = require('routes')
 
 
 	let app = express()
 	let publicPath = path.resolve(__dirname, '../dist')
 	let port = 3000
+
+	let arrConnections = [];
+	// console.log(typeof SocketHandler);
 
 	// point for static assets
 	app.use(express.static(publicPath))
@@ -33,8 +36,8 @@ function (ipcMain, mainWindow)  {
 	wss.on('connection', function connection (ws, req) {
 		console.log("ws - connection established with: " + req.connection.remoteAddress)
 
-		ws.on('message', function incoming (message) {
-			SocketHandle.handleIncomingMessage(message)
+		ws.on('message', function (message) {
+			SocketHandler.handleIncomingMessage(message)
 		})
 
 	})
