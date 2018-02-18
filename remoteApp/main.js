@@ -3,8 +3,9 @@ const SocketHandler = require("./SocketHandler.js");
 const Connection = require("./Connection.js");
 
 // The remoteApp must be given the centralApp local adress as 
-// argument when launching
+// argument when launching (exe: 127.0.0.1:3000)
 let strRemoteAdress = process.argv[2];
+strRemoteAdress = `ws://${strRemoteAdress}`; // the final adress should look like: ws://adress:port
 
 const ws = new WebSocket(strRemoteAdress);
 

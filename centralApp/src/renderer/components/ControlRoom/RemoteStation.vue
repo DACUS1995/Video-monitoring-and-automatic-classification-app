@@ -11,6 +11,7 @@
         <span class="icon icon-network"></span>
         <div class="media-body">
           <strong>{{ item.label }}</strong>
+          <p>IPv4: {{ item.remote_address }}</p>
           <p>{{ item.status }}</p>
         </div>
        </li>
@@ -32,12 +33,16 @@
         remoteList: [
           {
             label: 'Name_1',
+            station_id: 1,
             status: "connected",
+            remote_address: "127.0.0.1",
             clicked: false
           },
           {
             label: 'Name_2',
+            station_id: 2,
             status: 'connection pending',
+            remote_address: "127.0.0.1",
             clicked: false
           }
         ]
@@ -52,6 +57,32 @@
 
         item.clicked = !item.clicked;
       }
+    },
+    // !! Use the 'mounted' life-cycle hook to trigger updates in renderer based on main events
+    mounted () {
+      this.$electron.ipcRenderer.on('new-connection-setup', (event, data) => {
+        console.log(data);
+
+        this.remoteList.push({
+          label: data.stationId,
+          station_id: data.stationId,
+          remote_address: data.address,
+          status: "connected",
+          clicked: false
+        });
+      });
+
+      this.$electron.ipcRenderer.on('remote-disconected', (event, data) => {
+        console.log(data);
+
+        for(let i = 0; i < this.remoteList.length; i++)
+        {
+          if(this.remoteList[i].station_id === data)
+          {
+            this.remoteList.splice(i, 1);
+          }
+        }
+      });
     }
   }
 </script>

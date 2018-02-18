@@ -10,7 +10,7 @@ function (ipcMain, mainWindow)  {
 	
 	const path = require('path')
 	const bodyParser = require('body-parser')
-	const SocketHandler = require("./SocketHandler.js");
+	const SocketHandler = require("./SocketHandler.js").default;
 	// var routes = require('routes')
 
 
@@ -19,7 +19,6 @@ function (ipcMain, mainWindow)  {
 	let port = 3000
 
 	let arrConnections = [];
-	// console.log(typeof SocketHandler);
 
 	// point for static assets
 	app.use(express.static(publicPath))
@@ -35,15 +34,17 @@ function (ipcMain, mainWindow)  {
 	
 	wss.on('connection', function connection (ws, req) {
 		console.log("ws - connection established with: " + req.connection.remoteAddress)
-
+		let connectionSocketHandler = new SocketHandler(mainWindow, arrConnections);
+		
 		ws.on('message', function (message) {
-			SocketHandler.handleIncomingMessage(message)
+			connectionSocketHandler.handleIncomingMessage(message)
 		})
 
+		ws.on('error', () => console.log('errored (Probably just a ws disconect)'));
 	})
 
 	server.listen(port, function listening () {
-		console.log('Listening on %d', server.address().port)
+		console.log('Listening on port: %d', server.address().port)
 	})
 }
 
