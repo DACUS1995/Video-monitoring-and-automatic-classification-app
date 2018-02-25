@@ -8,8 +8,8 @@ class Connection
     // nStationID or strStationName
     /**
      * @constructor
-     * @param {*} ws 
-     * @param {*} nStationID 
+     * @param {string} ws 
+     * @param {string} nStationID 
      */
     constructor(ws, nStationID)
     {
@@ -20,7 +20,23 @@ class Connection
 
     makeRTCConnection()
     {
-        
+        /*
+        * Steps:
+        *
+        * 1) Start local electron process
+        * 2) Capture local media stream
+        * 3) Create WRTC connection to the central app
+        */
+
+        const spawn = require('child_process').spawn;
+
+        let params = `.\\RemoteElectron\\`;
+        let options = { 
+            silent: false,
+            shell: true
+        };
+
+        const remoteElectronProcess = spawn(`electron`, [params], options);
     }
 
     /**
