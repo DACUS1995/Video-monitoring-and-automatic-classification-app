@@ -83,6 +83,12 @@
           }
         }
       });
+
+      this.$electron.ipcRenderer.on('message-from-remoteElectron', (event, data) => {
+        console.log("Message from remoteElectron", data);
+
+        // TODO handle the message
+      });
     }
   }
 </script>

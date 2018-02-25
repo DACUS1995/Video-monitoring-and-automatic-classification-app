@@ -36,7 +36,7 @@ class SocketHandler{
     /**
      * Checks the subject of the message and acts accordingly
      * 
-     * @param {*string} strStringObject 
+     * @param {string} strStringObject 
      */
     handleIncomingMessage(strStringObject){
         let objDecodedMessage = SocketHandler.decodeMessage(strStringObject);
@@ -55,7 +55,7 @@ class SocketHandler{
             // Make sure arrConnections exists in a reachable scope
             if(typeof this.arrConnections == "undefined") 
             {
-                throw new  Error("The arrConnections array cannot be found in reachable scope!");
+                throw new Error("The arrConnections array cannot be found in reachable scope!");
             }
 
             this.arrConnections.push(objDecodedMessage.message);
@@ -76,6 +76,14 @@ class SocketHandler{
                 console.log(`Remote station: ${this.stationID} disconnected`);
                 this.removeDisconnectedStation();
             }, 10000);
+        }
+
+        // Use the existing Node process to broker the messages between the Electron processes     
+        if(objDecodedMessage.subject == "remoteElectron")
+        {
+            console.log(`Message from remote electron process, station ${this.stationID}`);
+
+            this.mainWindow.webContents.send('message-from-remoteElectron', objDecodedMessage.message);
         }
     }
 
