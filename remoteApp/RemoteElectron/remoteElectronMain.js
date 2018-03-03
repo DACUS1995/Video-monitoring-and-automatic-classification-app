@@ -30,6 +30,8 @@ app.on("ready", () => {
 		slashes: true
 	}))
 
+	require('./ExpressServer.js')(ipcMain, mainWindow);
+
 	// Close main app when main window is closed
 	mainWindow.on("closed", () => {
 		app.quit();
@@ -43,4 +45,4 @@ app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') {
 	app.quit()
   }
-})
+});

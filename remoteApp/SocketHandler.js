@@ -1,7 +1,10 @@
 module.exports = 
 class SocketHandler
 {
-    constructor(){}
+    constructor()
+    {
+        this.remoteElectronProcess = null;
+    }
 
     static makeMessage(strSubject, strMessage)
     {
@@ -28,6 +31,16 @@ class SocketHandler
         {
             // Handle the message acordingly
             console.log(objDecodedMessage.message);
+        }
+
+        if(objDecodedMessage.subject == "message-to-electron")
+        {
+            if(this.remoteElectronProcess == null)
+            {
+                throw new Error("the remoteElectronProcess is set to null");
+            }
+
+            this.remoteElectronProcess.send(objDecodedMessage);
         }
     }
 

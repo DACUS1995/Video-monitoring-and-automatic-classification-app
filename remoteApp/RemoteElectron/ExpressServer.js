@@ -10,20 +10,16 @@ function (ipcMain, mainWindow)  {
 	
 	const path = require('path')
 	const bodyParser = require('body-parser')
-	const SocketHandler = require("./SocketHandler.js").default;
-	// var routes = require('routes')
-
+	const ElectronMainSocketHandler = require("./ElectronMainSocketHandler.js");
 
 	let app = express()
 	let publicPath = path.resolve(__dirname, '../dist')
-	let port = 3000
-
-	let arrConnections = [];
+	let port = 4000
 
 	// point for static assets
-	app.use(express.static(publicPath));
+	app.use(express.static(publicPath))
 
-	app.use(bodyParser.json());
+	app.use(bodyParser.json())
 	app.use(bodyParser.urlencoded({
 		extended: true
 	}));
@@ -34,11 +30,23 @@ function (ipcMain, mainWindow)  {
 	
 	wss.on('connection', function connection (ws, req) {
 		console.log("ws - connection established with: " + req.connection.remoteAddress);
-		let connectionSocketHandler = new SocketHandler(mainWindow, arrConnections);
-		
-		ws.on('message', function (message) {
-			connectionSocketHandler.handleIncomingMessage(message)
+		let connectionSocketHandler = new ElectronMainSocketHandler(mainWindow, ipcMain, ws);
+
+		if(!ipcMain)
+		{
+			throw new Error("ipcMain is empty");
+		}
+
+		// Handle the messages that come from local electron render process
+		ipcMain.on("message", (event, arg) => {
+			console.log("Message from ipcMain");
+			connectionSocketHandler.handleIpcMainIncomingMessage(arg);
 		});
+		
+		// Handle the messages that come from centralApp electron process
+		ws.on('message', function (rawMessage) {
+			connectionSocketHandler.handleIncomingMessage(rawMessage)
+		})
 
 		ws.on('error', () => console.log('errored (Probably just a ws disconect)'));
 	})

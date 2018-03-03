@@ -1,7 +1,15 @@
 'use strict';
 
-import { ElectronSocketHandler } from "./ElectronSocketHandler.js";
-	
+const ElectronRendererSocketHandler = require("./ElectronRendererSocketHandler.js");
+const {ipcRenderer} = require("electron");
+const SimplePeer  = require("simple-peer");
+const remoteWebRTC = require("./remoteWebRTC.js");
+
+// Messages that are related with webRTC are handled in remoteWebRTC
+ipcRenderer.on("message-from-centralApp", (event, data) => {
+	ElectronRendererSocketHandler.handleIncomingMessage(data);
+});
+
 window.addEventListener('load', function (evt) {
 	let elVideo = document.getElementById('remoteVideo');
 	let stream;
@@ -11,13 +19,17 @@ window.addEventListener('load', function (evt) {
 		function (localStream) {
 			elVideo.src = window.URL.createObjectURL(localStream);
 
-			let servers = null;
-			pc = new webkitRTCPeerConnection(servers);
-			pc.addStream(localStream);
+			let objRemoteWebRTC = new remoteWebRTC(localStream, SimplePeer , ipcRenderer);
+			setTimeout(() => {
+				objRemoteWebRTC.createConnection();
+			}, 3500);
+
+			// let servers = null;
+			// pc = new webkitRTCPeerConnection(servers);
+			// pc.addStream(localStream);
 
 			// stream = localStream;
 		},
-  
 		function (err) {
 			console.log('The following error occurred: ' + err.name)
 		}
