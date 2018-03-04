@@ -1,7 +1,13 @@
 <template>
   <div align="middle" class="polaroid">
-    <div class="title">Selected Device Stream: </div>
-    <video id='localVideo' width="480" height="320" autoplay></video>
+    <div class="title">Number of connections: {{ Connections.length }}</div>
+    <div class="title">Streams: </div>
+    <ul>
+      <li v-for="(item, index) in Connections">
+        <video :id="item.video_id" width="480" height="320" autoplay></video>
+      </li>
+    </ul>
+    <!--<video id='localVideo' width="480" height="320" autoplay></video>-->
   </div>
 </template>
 
@@ -11,20 +17,13 @@
       return {
         //  Empty
       }
+    },
+    computed: {
+      Connections(){
+        return this.$store.state.Connections.arrConnections;
+      }
     }
   }
-
-  window.addEventListener('load', function (evt) {
-    // navigator.getUserMedia({audio: false, video: true},
-    //   function (stream) {
-    //     let video = document.getElementById('localVideo')
-    //     video.src = window.URL.createObjectURL(stream)
-    //   },
-    //   function (err) {
-    //     console.log('The following error occurred: ' + err.name)
-    //   }
-    // )
-  })
 </script>
 
 <style scoped>

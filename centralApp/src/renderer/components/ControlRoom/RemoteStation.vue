@@ -31,23 +31,13 @@
   export default {
     data () {
       return {
-        name: 'Remote Station',
-        remoteList: [
-          {
-            label: 'Name_1',
-            station_id: 1,
-            status: "connected",
-            remote_address: "127.0.0.1",
-            clicked: false
-          },
-          {
-            label: 'Name_2',
-            station_id: 2,
-            status: 'connection pending',
-            remote_address: "127.0.0.1",
-            clicked: false
-          }
-        ]
+        name: 'Remote Station'
+        // remoteList: this.$store.state.arrConnections
+      }
+    },
+    computed:{
+      remoteList(){
+        return this.$store.state.Connections.arrConnections;
       }
     },
     methods: {
@@ -76,16 +66,21 @@
     },
     // !! Use the 'mounted' life-cycle hook to trigger updates in renderer based on main events
     mounted () {
+      console.log(this.remoteList);
       this.$electron.ipcRenderer.on('new-connection-setup', (event, data) => {
         console.log(data);
-
-        this.remoteList.push({
+        
+        let objNewConnection = {
           label: data.stationId,
           station_id: data.stationId,
           remote_address: data.address,
           status: "connected",
-          clicked: false
-        });
+          clicked: false,
+          video_id: `station_${data.stationId}`
+        };
+
+        this.$store.commit("ADD_NEW_STATION", objNewConnection);
+        console.log(this.$store.state.Connections.arrConnections);
 
         // Wait for 5 seconds to make sure the remote electron process has started
         setTimeout(() => {
@@ -122,8 +117,9 @@
           peer2.on('stream', function (stream) {
             console.log("Event on peer2 to start stream");
             // got remote video stream, now let's show it in a video tag
-            let video = document.querySelector('#localVideo')
+            let video = document.querySelector(`#${objNewConnection.video_id}`);
 
+            console.log(video);
             video.src = window.URL.createObjectURL(stream)
             video.play()
           });
@@ -134,13 +130,14 @@
       this.$electron.ipcRenderer.on('remote-disconected', (event, data) => {
         console.log(data);
 
-        for(let i = 0; i < this.remoteList.length; i++)
-        {
-          if(this.remoteList[i].station_id === data)
-          {
-            this.remoteList.splice(i, 1);
-          }
-        }
+        this.$store.commit("REMOVE_NEW_STATION", data);
+        // for(let i = 0; i < this.remoteList.length; i++)
+        // {
+        //   if(this.remoteList[i].station_id === data)
+        //   {
+        //     this.remoteList.splice(i, 1);
+        //   }
+        // }
       });
 
       // this.$electron.ipcRenderer.on('message-from-remoteElectron', (event, data) => {
