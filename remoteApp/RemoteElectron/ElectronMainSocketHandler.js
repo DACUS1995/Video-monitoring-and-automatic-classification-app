@@ -53,7 +53,6 @@ class ElectronMainSocketHandler{
     
             if(objDecodedMessage.subject == "message")
             {
-                // Handle the message acordingly
                 console.log("Message from main: " + objDecodedMessage.message);
                 this.mainWindow.webContents.send('message-from-centralApp', objDecodedMessage);
             }

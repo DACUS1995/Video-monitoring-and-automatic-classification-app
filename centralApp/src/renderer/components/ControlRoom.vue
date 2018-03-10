@@ -60,18 +60,6 @@
     }
   }
 
-  // let {ipcRenderer, remote} = require('electron');
-
-  // ipcRenderer.on('message-from-remote', (event, arg) => {  
-  //   console.log("Message from main process: " + arg);
-  // });
-
-  // ipcRenderer.on('new-connection-setup', (event, args) => {
-  //   // this.triggered();
-  //   console.log("New Connection:");
-  //   console.log(args);
-  // });
-
 </script>
 
 <style>

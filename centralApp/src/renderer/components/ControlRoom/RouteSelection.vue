@@ -1,27 +1,21 @@
 <template>
-	<div class="pane-sm sidebar">
+	<div class="pane route-panel sidebar">
 	  <ul class="list-group">
 	    <li class="list-group-header">
-	      <input class="form-control" type="text" placeholder="Search for someone">
+
 	    </li>
 	    <li class="list-group-item" v-for="(item, index) in leftList">
 	      <span class="icon icon-address"></span>
-				<div>
-					<select class="form-control">
-						<option>Option one</option>
-  					<option>Option two</option>
-					</select>
-				</div>
 	     	<div class="media-body">
-	      	<strong>{{ item.title }}</strong>
-	      	<p>{{ item.content }}</p>
+	      	<strong>{{item.name}}</strong>
+	      	<p class="text-content">{{`Description: ${item.content}`}}</p>
+					<div class="text-content">{{`Route: ${item.route}`}}</div>
+					<div>
+						<textarea class="textarea-dinamic" v-model="item.route"></textarea>
+					</div>
 	     	</div>
+				<button @click="saveRoute(item.route_id)" class="btn btn-primary">Save</button>
 	  	</li>
-	    <li class="list-group-item">
-	      <button class="btn btn-large btn-primary icon icon-plus-circled">
-	        Add new route
-	      </button>
-	   	</li>
 	 	</ul>
 	</div>
 </template>
@@ -34,21 +28,51 @@
         name: 'Route Selection',
         leftList: [
     			{
-      			title: 'Condition One',
-      			content: 'Description'
+						route_id: 1,
+						route: "Insert route",
+      			name: 'Clasification 1',
+      			content: 'Description 1'
      			},
      			{
-      			title: 'Condition Two',
-      			content: 'Description'
+						route_id: 2,
+						route: "Insert route",				 
+      			name: 'Clasification 2',
+      			content: 'Description 2'
     	 		}
    			],
       }
-    }
+    },
+		methods:{
+			saveRoute(route_id){
+				//TODO save the updated list in a file and update it whenever the save button is clicked
+				//TODO move the the leftList array to the central store
+				//TODO sync the routes with every remoteStation
+			}
+		}
   }
 </script>
 
 
 <style scoped>
+	.route-panel{
+		max-width: 250px;
+	}
+
+	.text-content{
+		word-break: keep-all;
+		overflow-wrap: break-word;
+		max-width: 230px;
+		white-space: pre-wrap;
+		overflow-wrap: break-word;
+	}
+
+	.textarea-dinamic{
+		resize: both;
+		width: 230px;
+		white-space: pre-wrap;
+		overflow-y: scroll;
+	}
+
   .title {
     color: #888;
     font-size: 18px;

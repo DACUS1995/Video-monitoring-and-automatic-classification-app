@@ -1,6 +1,7 @@
 const WebSocket = require('ws');
 const SocketHandler = require("./SocketHandler.js");
 const Connection = require("./Connection.js");
+const remoteVideoClassifier = require("./remoteVideoClassifier.js");
 
 // The remoteApp must be given the centralApp local adress as 
 // argument when launching (exe: 127.0.0.1:3000)
@@ -26,6 +27,9 @@ ws.on('open', function open() {
 
 	connection.sendIdentificationData();
 	connection.makeRTCConnection();
+
+	let objRemoteVideoClassifier = new remoteVideoClassifier();
+	connection.startVideoClassifier(objRemoteVideoClassifier);
 });
 
 ws.on('message', function incoming(data) {

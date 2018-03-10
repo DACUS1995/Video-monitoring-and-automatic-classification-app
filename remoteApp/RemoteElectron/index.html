@@ -3,16 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0>
+    <link rel="stylesheet" type="text/css" href="./static/css/style.css">
+    <link rel="stylesheet" type="text/css" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">    
 </head>
 <body>
-    <div class="title">Local Video Stream: </div>
-        <video id='remoteVideo' width="480" height="320" autoplay></video>
+    <div class="card" style="margin:1%">
+        <div class="title card-title">Local Video Stream</div>
+        <div class="video-stream">
+            <video style="margin: auto;" id='remoteVideo' width="480" height="320" autoplay></video>
+        </div>
+        <div class="instructions">
+            <div class="instructions-text alert alert-info">
+                Tempor eiusmod adipisicing fugiat amet elit amet fugiat laborum ex aute sunt.
+            </div>
+            <div class="instructions-graphical">
+                <img class="image-info" src="./static/images/right_arrow.png" alt="Instruction">
+            </div>
+        </div>
     </div>
     
-<!-- <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script> -->
-<!-- <script src="./ElectronRendererSocketHandler.js"></script> -->
 <script src="./index.js"></script>
-<!-- <script src="./remoteWebRTC.js"></script> -->
 
 </body>
 </html>

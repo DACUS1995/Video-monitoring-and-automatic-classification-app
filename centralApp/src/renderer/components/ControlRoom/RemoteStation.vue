@@ -14,11 +14,9 @@
           <p>IPv4: {{ item.remote_address }}</p>
           <p>{{ item.status }}</p>
         </div>
-       </li>
-       <li class="list-group-item">
-        <button class="btn btn-large btn-positive icon icon-plus-circled">
-          Add new remote device
-        </button>
+      </li>
+      <li v-if="!remoteList.length" class="list-group-item">
+        <span class="no-remote-stations">No remote station connected</span>
       </li>
     </ul>
   </div>
@@ -177,6 +175,10 @@
 
   .item .value {
     color: #35495e;
+    font-weight: bold;
+  }
+
+  .no-remote-stations{
     font-weight: bold;
   }
 

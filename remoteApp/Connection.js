@@ -17,14 +17,31 @@ class Connection
 		this.nStationID = nStationID;
 		this.strStationAdress = this.getNetworkAdress();
 		this.remoteElectronProcess = null;
+		this.remoteVideoClassifier = null;
 	}
+
+	startVideoClassifier(objRemoteVideoClassifier)
+	{
+		this.remoteVideoClassifier = objRemoteVideoClassifier.spawnClassificationProcess();
+	}
+
+    /**
+     * Use this function to decide what to do with the
+     * data that comes from stdout or from IPC from the
+     * spawned procces that runs the classification model
+	 * 
+	 * Use ws to send data to centralApp
+	 * Use this.remoteElectronProcess to send data to remoteElectronMain
+     */
+    handleClassificationProcessData()
+    {
+
+    }
 
 	/**
 	 * Create the RTC connection beetween the main and remote electron process 
-	 * 
-	 * @param {object} objInstanceSocketHandler
 	 */
-	makeRTCConnection(objInstanceSocketHandler)
+	makeRTCConnection()
 	{
 		/*
 		* Steps:
@@ -32,9 +49,8 @@ class Connection
 		* 1) Start local electron process
 		* 2) Capture local media stream
 		* 3) Create WRTC connection to the central app
-		*       - use for signaling the existing ws connection
-		*       - to comunicate with the Electron process you must capture the stdout
-		*       - the output from previous step must be interpreted and handled accordingly ("handleRemoteElectronMessaging")
+		*       - use for signaling the existing ws connection to create a new ws connection to comunicate between mainExpressApp and a remote express server 
+		*       - the output from previous step must be interpreted and handled accordingly ("handleRemoteElectronMessaging") or not
 		*/
 
 		const spawn = require('child_process').spawn;
@@ -48,13 +64,6 @@ class Connection
 
 		const remoteElectronProcess = spawn(`electron`, [params], options);
 		this.remoteElectronProcess = remoteElectronProcess;
-
-		// objInstanceSocketHandler.setRefToRemoteElectronProcess(remoteElectronProcess);
-		
-		// remoteElectronProcess.on("message", (data) => {
-		// 	handleRemoteElectronMessaging(data);
-		// });
-		// remoteElectronProcess.send("Hello Please");
 	}
 
 	/**
@@ -64,7 +73,6 @@ class Connection
 	 */
 	handleRemoteElectronMessaging(objData)
 	{
-		// TODO stuff
 		// In the electron process you should wrap the output stream in an object with subject and message to parse more easely
 		let strSubject = objData.subject;
 		let strMessage = objData.message;

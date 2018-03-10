@@ -6,8 +6,8 @@ const path = require("path");
 
 
 // Set environment variables
-// process.env.NODE_ENV = "development";
-process.env.NODE_ENV = "release";
+process.env.NODE_ENV = "development";
+// process.env.NODE_ENV = "release";
 
 const { app, BrowserWindow, Menu, ipcMain } = electron;
 require('electron-reload')(__dirname);
@@ -29,6 +29,8 @@ app.on("ready", () => {
 		protocol: "file",
 		slashes: true
 	}))
+
+	mainWindow.webContents.openDevTools();
 
 	require('./ExpressServer.js')(ipcMain, mainWindow);
 
