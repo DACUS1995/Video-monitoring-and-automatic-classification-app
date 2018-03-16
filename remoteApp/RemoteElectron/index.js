@@ -15,18 +15,34 @@ window.addEventListener('load', function (evt) {
 	let stream;
 	let startTime;
 
-	navigator.getUserMedia({audio: false, video: true},
-		function (localStream) {
+	navigator.mediaDevices.enumerateDevices()
+	.then((arrDevices) => {
+		let objVideoConstraints = null;
+
+		for(let device of arrDevices)
+		{
+			if(device.label == "Multisplitter Video Source")
+			{
+				objVideoConstraints = {
+					deviceId: {exact: device.deviceId}
+				};
+				break;
+			}
+		}
+		
+		navigator.mediaDevices.getUserMedia({audio: false, video: objVideoConstraints})
+		.then(function (localStream) {
 			elVideo.src = window.URL.createObjectURL(localStream);
-
+			console.log(`Video Url: ${elVideo.src}`);
+	
 			let objRemoteWebRTC = new remoteWebRTC(localStream, SimplePeer, ipcRenderer);
-
+	
 			setTimeout(() => {
 				objRemoteWebRTC.createConnection();
 			}, 3500);
-		},
-		function (err) {
+		})
+		.catch(function (err) {
 			console.log('The following error occurred: ' + err.name)
-		}
-	);
+		})
+	});
 })

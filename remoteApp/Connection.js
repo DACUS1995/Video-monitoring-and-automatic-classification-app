@@ -1,6 +1,7 @@
 const os = require("os");
 const Config = require("./Config.js");
 const SocketHandler = require("./SocketHandler.js");
+const path = require("path");
 
 module.exports = 
 class Connection
@@ -9,20 +10,24 @@ class Connection
 	/**
 	 * @constructor
 	 * @param {string} ws 
-	 * @param {string} nStationID 
+	 * @param {string} nStationID
+	 * @param {Object} 
 	 */
-	constructor(ws, nStationID)
+	constructor(ws, nStationID, objRemoteVideoClassifier)
 	{
 		this.ws = ws;
 		this.nStationID = nStationID;
+		this.objRemoteVideoClassifier = objRemoteVideoClassifier;
 		this.strStationAdress = this.getNetworkAdress();
 		this.remoteElectronProcess = null;
-		this.remoteVideoClassifier = null;
+
+		this.remoteVideoClassifierProcces = null;
 	}
 
-	startVideoClassifier(objRemoteVideoClassifier)
+	startVideoClassifier()
 	{
-		this.remoteVideoClassifier = objRemoteVideoClassifier.spawnClassificationProcess();
+		this.remoteVideoClassifierProcces = this.objRemoteVideoClassifier.spawnClassificationProcess();
+		this.handleClassificationProcessData();
 	}
 
     /**
@@ -35,7 +40,9 @@ class Connection
      */
     handleClassificationProcessData()
     {
-
+		this.remoteVideoClassifierProcces.on("data", () => {
+			console.log("---> Data from classification process: ");
+		});
     }
 
 	/**

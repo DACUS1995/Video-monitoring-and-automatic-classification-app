@@ -1,2 +1,7 @@
 node_modules
-remoteVideoClassifier
+remoteVideoClassifier/protos
+remoteVideoClassifier/ssd_mobilenet_v1_coco_11_06_2017
+remoteVideoClassifier/utils
+remoteVideoClassifier/data.txt
+remoteVideoClassifier/__pycache__
+

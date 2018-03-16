@@ -21,15 +21,14 @@ ws.on('open', function open() {
 		);	
 	}, 5000);
 
-	// Prepare Signaling and Create the WebRTC connection to Main App
+	// Prepare Signaling, Create the WebRTC connection to Main App, and start the classification process
 	let nStationID = SocketHandler.generateStationID();
-	let connection = new Connection(ws, nStationID);
+	let objRemoteVideoClassifier = new remoteVideoClassifier();
+	let connection = new Connection(ws, nStationID, objRemoteVideoClassifier);
 
 	connection.sendIdentificationData();
 	connection.makeRTCConnection();
-
-	let objRemoteVideoClassifier = new remoteVideoClassifier();
-	connection.startVideoClassifier(objRemoteVideoClassifier);
+	connection.startVideoClassifier();
 });
 
 ws.on('message', function incoming(data) {
