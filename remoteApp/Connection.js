@@ -27,7 +27,17 @@ class Connection
 	startVideoClassifier()
 	{
 		this.remoteVideoClassifierProcces = this.objRemoteVideoClassifier.spawnClassificationProcess();
-		this.handleClassificationProcessData();
+
+		// It may take some time for the python process to start
+		// so I use setInterval to check if the process handler was created
+		// in order to set the listeners on the stdout
+		let intervalID = setInterval(() => {
+			if(this.remoteVideoClassifierProcces != null)
+			{
+				this.handleClassificationProcessData();
+				clearInterval(intervalID);
+			}
+		}, 2000);
 	}
 
     /**
@@ -36,12 +46,26 @@ class Connection
      * spawned procces that runs the classification model
 	 * 
 	 * Use ws to send data to centralApp
-	 * Use this.remoteElectronProcess to send data to remoteElectronMain
      */
     handleClassificationProcessData()
     {
-		this.remoteVideoClassifierProcces.on("data", (data) => {
-			console.log(`---> Data from classification process: ${data}`);
+		this.remoteVideoClassifierProcces.stdout.on("data", (data) => {
+			// console.log(`---> Data from classification process: ${data}`);
+
+			let parsedData = JSON.parse(data);
+
+			// Send to mainApp
+			this.ws.send(
+				SocketHandler.makeMessage(parsedData.subject, parsedData.message)
+			);
+
+			// Send to remote Electron 
+			// (we could route the message through main app because there is allready a connection available to the remote Electron main)
+
+		});
+
+		this.remoteVideoClassifierProcces.on("close", (code) => {
+			console.log(`---> Classification process exited with code ${code}`);
 		});
     }
 

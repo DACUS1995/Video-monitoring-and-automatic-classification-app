@@ -27,7 +27,7 @@ class remoteVideoClassifier
 		let options = {
 			silent: false,
 			shell: true,
-            stdio: ["inherit", "inherit", "inherit", "ipc"],
+            stdio: ["pipe", "pipe", "pipe", "ipc"],
             cwd: path.resolve(strObjectDetectionModulePath)
         };
         

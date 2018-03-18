@@ -96,7 +96,14 @@
               socket.send(
                 this.makeMessage("webRTC_Data", data)
               );
-            })
+            });
+
+            this.$electron.ipcRenderer.on('classification_results', (event, data) => {
+
+              socket.send(
+                this.makeMessage("classification_results", data.message)
+              );
+            });
           });
 
           // Listen for messages
@@ -137,12 +144,6 @@
         //   }
         // }
       });
-
-      // this.$electron.ipcRenderer.on('message-from-remoteElectron', (event, data) => {
-      //   console.log("Message from remoteElectron", data);
-
-      //   // TODO handle the message
-      // });
     }
   }
 </script>

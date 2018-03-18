@@ -10,6 +10,10 @@ ipcRenderer.on("message-from-centralApp", (event, data) => {
 	ElectronRendererSocketHandler.handleIncomingMessage(data);
 });
 
+ipcRenderer.on("classification_results", (event, data) => {
+	ElectronRendererSocketHandler.handleIncomingMessage(data);	
+});
+
 window.addEventListener('load', function (evt) {
 	let elVideo = document.getElementById('remoteVideo');
 	let stream;
@@ -21,6 +25,7 @@ window.addEventListener('load', function (evt) {
 
 		for(let device of arrDevices)
 		{
+			// Windows only
 			if(device.label == "Multisplitter Video Source")
 			{
 				objVideoConstraints = {
@@ -28,6 +33,11 @@ window.addEventListener('load', function (evt) {
 				};
 				break;
 			}
+		}
+
+		if(objVideoConstraints == null)
+		{
+			throw new Error("Multisplitter Video Source is not available");
 		}
 		
 		navigator.mediaDevices.getUserMedia({audio: false, video: objVideoConstraints})

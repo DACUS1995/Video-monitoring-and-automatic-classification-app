@@ -83,7 +83,13 @@ class SocketHandler{
         {
             console.log(`Message from remote electron process, station ${this.stationID}`);
 
-            this.mainWindow.webContents.send('message-from-remoteElectron', objDecodedMessage.message);
+            this.mainWindow.webContents.send("message-from-remoteElectron", objDecodedMessage.message);
+        }
+
+        // Message from python classification process
+        if(objDecodedMessage.subject == "classification_results")
+        {
+            this.mainWindow.webContents.send(objDecodedMessage.subject, objDecodedMessage);
         }
     }
 

@@ -68,6 +68,11 @@ class ElectronMainSocketHandler{
                 // console.log(`(Subject ${objDecodedMessage.subject}): ${objDecodedMessage.message}`);
                 this.mainWindow.webContents.send("webRTC_Data", objDecodedMessage)
             }
+
+            if(objDecodedMessage.subject == "classification_results")
+            {
+                this.mainWindow.webContents.send(objDecodedMessage.subject, objDecodedMessage);                
+            }
         }
         catch(Error)
         {

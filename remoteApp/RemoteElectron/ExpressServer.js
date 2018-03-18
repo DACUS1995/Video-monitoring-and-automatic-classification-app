@@ -42,8 +42,8 @@ function (ipcMain, mainWindow)  {
 			console.log("Message from ipcMain");
 			connectionSocketHandler.handleIpcMainIncomingMessage(arg);
 		});
-		
-		// Handle the messages that come from centralApp electron process
+
+		// Handle the messages that come from remoteApp
 		ws.on('message', function (rawMessage) {
 			connectionSocketHandler.handleIncomingMessage(rawMessage)
 		})

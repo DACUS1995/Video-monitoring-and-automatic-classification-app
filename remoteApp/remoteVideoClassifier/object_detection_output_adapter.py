@@ -1,4 +1,5 @@
 import json
+import sys
 
 # Logging and data selection
 def log_results(outfile, results, categories):
@@ -20,6 +21,7 @@ def log_results(outfile, results, categories):
 
       json_message = json.dumps(message)
       print(json_message)
+      sys.stdout.flush()
 
       # print(f"Found: [name: {categories[index_score]['name']}, id: {categories[index_score]['id']}] with score: [{value_score}]")
 
