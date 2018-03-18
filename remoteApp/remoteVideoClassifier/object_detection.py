@@ -11,6 +11,7 @@ from collections import defaultdict
 from io import StringIO
 from matplotlib import pyplot as plt
 from PIL import Image
+from object_detection_output_adapter import log_results, log_results_test
 
 import cv2
 
@@ -83,7 +84,7 @@ label_map = label_map_util.load_labelmap(PATH_TO_LABELS)
 categories = label_map_util.convert_label_map_to_categories(label_map, max_num_classes=NUM_CLASSES, use_display_name=True)
 category_index = label_map_util.create_category_index(categories)
 
-
+print(category_index)
 # ## Helper code
 
 def load_image_into_numpy_array(image):
@@ -102,20 +103,6 @@ TEST_IMAGE_PATHS = [ os.path.join(PATH_TO_TEST_IMAGES_DIR, 'image{}.jpg'.format(
 
 # Size, in inches, of the output images.
 IMAGE_SIZE = (12, 8)
-
-# Logging and data selection
-def log_results(outfile, results):
-  for index_score, value_score in enumerate(results["scores"][0]):
-    if value_score > 0.85:
-      print(f"Found: [name: {categories[index_score]['name']}, id: {categories[index_score]['id']}] with score: [{value_score}]")
-
-  # log_results.counter += 1
-  # json.dump(results["classes"], outfile)
-
-  # print(f"Frame: {log_results.counter}")
-  # print(results["classes"])
-log_results.counter = 0
-
 
 with detection_graph.as_default():
   with tf.Session(graph=detection_graph) as sess:
@@ -144,11 +131,11 @@ with detection_graph.as_default():
       (boxes, scores, classes, num_detections) = sess.run(
           [boxes, scores, classes, num_detections],
           feed_dict={image_tensor: image_np_expanded})
-      results = {"boxes": boxes.tolist(), "scores": scores.tolist(), "classes": classes.tolist()}
-
+      results = {"boxes": np.squeeze(boxes), "scores": np.squeeze(scores), "classes": np.squeeze(classes).astype(np.int32)}
+      
       # Log the results of the inference process
       with open('data.txt', 'a') as outfile:
-        log_results(outfile, results)
+        log_results(outfile, results, category_index)
 
       # Visualization of the results of a detection.
       vis_util.visualize_boxes_and_labels_on_image_array(
@@ -158,6 +145,8 @@ with detection_graph.as_default():
           np.squeeze(scores),
           category_index,
           use_normalized_coordinates=True,
+          max_boxes_to_draw=5,
+          min_score_thresh=.8,
           line_thickness=8)
       cv2.imshow('object detection', cv2.resize(image_np, (800,600)))
       if cv2.waitKey(1) & 0xFF == ord('q'):

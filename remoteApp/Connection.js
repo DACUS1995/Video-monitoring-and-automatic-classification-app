@@ -40,8 +40,8 @@ class Connection
      */
     handleClassificationProcessData()
     {
-		this.remoteVideoClassifierProcces.on("data", () => {
-			console.log("---> Data from classification process: ");
+		this.remoteVideoClassifierProcces.on("data", (data) => {
+			console.log(`---> Data from classification process: ${data}`);
 		});
     }
 
