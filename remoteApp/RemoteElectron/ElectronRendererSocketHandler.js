@@ -56,10 +56,12 @@ class ElectronRendererSocketHandler
         }
     }
 
-    static get instructionImagePath(){return "./static/images/"}
+    static get instructionImagePath(){ return "./static/images/" }
+    static get classConfigs(){ return classPathsConfig } 
+
 }
 
-const configs = 
+const classPathsConfig = 
 {
     option_1 : 
     {
@@ -70,6 +72,11 @@ const configs =
     {
         image_source: "./static/images/right_arrow.png",
         text: "Generic text for option 2"
+    },
+    option_3:
+    {
+        image_source: "./static/images/right_arrow.png",
+        text: "Generic text for option 3"
     }
 }
 
