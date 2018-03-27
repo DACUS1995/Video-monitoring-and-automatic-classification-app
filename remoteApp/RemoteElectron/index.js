@@ -1,7 +1,7 @@
 'use strict';
 
 const ElectronRendererSocketHandler = require("./ElectronRendererSocketHandler.js");
-const {ipcRenderer} = require("electron");
+const { ipcRenderer } = require("electron");
 const SimplePeer  = require("simple-peer");
 const remoteWebRTC = require("./remoteWebRTC.js");
 

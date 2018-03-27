@@ -4,9 +4,10 @@
 let arrPictureElements = document.getElementsByClassName('rg_ic');
 let arrSources = [];
 
-arrPictureElements.forEach((element)=>{
+for(let element of arrPictureElements)
+{
     arrSources.push(element.src);
-});
+}
 
 // write the URls to file (one per line)
 let textToSave = arrSources.join('\n');

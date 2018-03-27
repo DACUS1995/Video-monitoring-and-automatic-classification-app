@@ -1,5 +1,7 @@
-const state = {
-	arrConnections: [
+const state = 
+{
+	arrConnections: 
+	[
 		// {
 		// 	label: 'Name_1',
 		// 	station_id: 1,
@@ -19,8 +21,10 @@ const state = {
 	]
 }
   
-const mutations = {
-	REMOVE_NEW_STATION (state, data) {
+const mutations = 
+{
+	REMOVE_NEW_STATION (state, data) 
+	{
 		for(let i = 0; i <state.arrConnections.length; i++)
         {
           if(state.arrConnections[i].station_id === data)
@@ -29,16 +33,21 @@ const mutations = {
           }
         }
 	},
-	ADD_NEW_STATION (state, objConnection) {
+	
+	ADD_NEW_STATION (state, objConnection) 
+	{
 		state.arrConnections.push(objConnection);
 		console.log("New Connections added in the central store: ",objConnection);
 	}
 }
   
-const actions = {
+const actions = 
+{
+
 }
   
-export default {
+export default 
+{
 	state,
 	mutations,
 	actions
