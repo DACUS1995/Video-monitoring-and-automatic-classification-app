@@ -4,17 +4,17 @@
 	    <li class="list-group-header">
 
 	    </li>
-	    <li class="list-group-item" v-for="(item, index) in leftList">
+	    <li class="list-group-item" v-for="(item, index) in configuredRoutes">
 	      <span class="icon icon-address"></span>
 	     	<div class="media-body">
-	      	<strong>{{item.name}}</strong>
-	      	<p class="text-content">{{`Description: ${item.content}`}}</p>
-					<div class="text-content">{{`Route: ${item.route}`}}</div>
+	      	<strong>{{ item.route_name }}</strong>
+	      	<p class="text-content">{{ `Description: ${item.route_description}` }}</p>
+					<div class="text-content">{{ `Route: ${item.route_indication}` }}</div>
 					<div>
-						<textarea class="textarea-dinamic" v-model="item.route"></textarea>
+						<textarea :id="`info_${item.route_id}`" class="textarea-dinamic"></textarea>
 					</div>
 	     	</div>
-				<button @click="saveRoute(item.route_id)" class="btn btn-primary">Save</button>
+				<button @click="saveRoute(item)" class="btn btn-primary">Save</button>
 	  	</li>
 	 	</ul>
 	</div>
@@ -26,27 +26,28 @@
     data () {
       return {
         name: 'Route Selection',
-        leftList: [
-    			{
-						route_id: 1,
-						route: "Insert route",
-      			name: 'Clasification 1',
-      			content: 'Description 1'
-     			},
-     			{
-						route_id: 2,
-						route: "Insert route",				 
-      			name: 'Clasification 2',
-      			content: 'Description 2'
-    	 		}
-   			],
       }
     },
+		computed: {
+			configuredRoutes(){
+				return this.$store.state.RoutingInfo.arrInfoConfigs;
+			}
+		},
 		methods:{
-			saveRoute(route_id){
+			saveRoute(route){
 				//TODO save the updated list in a file and update it whenever the save button is clicked
-				//TODO move the the leftList array to the central store
 				//TODO sync the routes with every remoteStation
+
+				let strIndication = document.getElementById(`info_${route.route_id}`).value;
+
+				let objNewConfig = {
+					route_id: route.route_id,
+					route_name: route.route_name,
+					route_description: route.route_description,
+					route_indication: strIndication
+				};
+				
+				this.$store.commit("EDIT_CONFIG", objNewConfig);
 			}
 		}
   }

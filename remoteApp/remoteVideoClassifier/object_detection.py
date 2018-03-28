@@ -50,8 +50,10 @@ def main():
 
   # List of the strings that is used to add correct label for each box.
   PATH_TO_LABELS = os.path.join('data', 'mscoco_label_map.pbtxt')
+  PATH_TO_RETRAINED_LABELS = os.path.join('data', 'train_v1_label_map.pbtxt')
 
   NUM_CLASSES = 90
+  NUM_RETRAINED_CLASSES = 2
 
 
   # ## Download Model
