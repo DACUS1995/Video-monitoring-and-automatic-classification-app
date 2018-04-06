@@ -40,6 +40,7 @@
     },
     methods: {
       toggle: function (item) {
+        // TODO use store MUTATION handler to change data to the remoteStationList
         for(let listItem of this.remoteList)
         {
           listItem.clicked = false;
