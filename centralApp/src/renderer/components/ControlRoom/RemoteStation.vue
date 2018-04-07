@@ -43,6 +43,8 @@
         // TODO use store MUTATION handler to change data to the remoteStationList
         for(let listItem of this.remoteList)
         {
+          
+          this.$store.commit("UPDATE_CONNECTION", objNewConnection);
           listItem.clicked = false;
         }
 

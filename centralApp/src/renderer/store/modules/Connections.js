@@ -38,6 +38,23 @@ const mutations =
 	{
 		state.arrConnections.push(objConnection);
 		console.log("New Connections added in the central store: ",objConnection);
+	},
+
+	// TODO check why we cannot replace the element from the arrConnection with the data object.(there is no reactiivity)
+	UPDATE_CONNECTION (state, data)
+	{
+		for(let i = 0; i <state.arrConnections.length; i++)
+        {
+        	if(state.arrConnections[i].station_id === data.station_id)
+        	{
+				state.arrConnections[i].label = data.label;
+				state.arrConnections[i].status = data.status;
+				state.arrConnections[i].remote_address = data.remote_address;
+				state.arrConnections[i].clicked = data.clicked;
+
+				break;
+        	}
+        }
 	}
 }
   
