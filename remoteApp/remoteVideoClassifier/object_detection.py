@@ -9,7 +9,7 @@ import json
 
 from collections import defaultdict
 from io import StringIO
-from matplotlib import pyplot as plt
+# from matplotlib import pyplot as plt
 from PIL import Image
 from object_detection_output_adapter import log_results, log_results_test
 
