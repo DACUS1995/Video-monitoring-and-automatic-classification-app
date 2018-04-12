@@ -36,23 +36,35 @@ class ElectronRendererSocketHandler
 
         if(objDecodedMessage.subject == "classification_results")
         {
+            // Stop the automatic rendering of default message
+            clearTimeout(this.timeoutID);
+            this.timeoutID = null;
+
             console.log(`---> Message from classifier: ${JSON.stringify(objDecodedMessage)}`);
 
             let elImgInstructionImage = document.getElementById("instruction-image");
             let elDivInstructionText = document.getElementById("instruction-text");
 
+            console.log(`Detected: [${objDecodedMessage.message.name}]`);
+ 
+            // Here you should add the detection classes and the specific settings
             if(objDecodedMessage.message.name == "person")
             {
-                console.log("Detected a handsome man!");
                 elImgInstructionImage.src = ElectronRendererSocketHandler.instructionImagePath + "left_arrow.png";
                 elDivInstructionText.innerText = "Hooman!";
             }
             else
             {
-                console.log("Not a handsome man");
                 elImgInstructionImage.src = ElectronRendererSocketHandler.instructionImagePath + "right_arrow.png";
-                elDivInstructionText.innerText = "Not Hooman!";                
+                elDivInstructionText.innerText = objDecodedMessage.message.name;                
             }
+
+            this.timeoutID = setTimeout(()=>
+            {
+                elImgInstructionImage.src = ElectronRendererSocketHandler.instructionImagePath + "forward_arrow.png";
+                elDivInstructionText.innerText = "Running on empty!"; 
+            }, 
+            5000);
         }
     }
 
@@ -60,6 +72,8 @@ class ElectronRendererSocketHandler
     static get classConfigs(){ return classPathsConfig } 
 
 }
+
+ElectronRendererSocketHandler.timeoutID = null;
 
 const classPathsConfig = 
 {

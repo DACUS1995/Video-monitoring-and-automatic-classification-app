@@ -29,8 +29,8 @@
   export default {
     data () {
       return {
-        name: 'Remote Station'
-        // remoteList: this.$store.state.arrConnections
+        name: 'Remote Station',
+        lastSelectedConnection: null
       }
     },
     computed:{
@@ -40,15 +40,18 @@
     },
     methods: {
       toggle: function (item) {
-        // TODO use store MUTATION handler to change data to the remoteStationList
-        for(let listItem of this.remoteList)
+        const objUpdatedConnection = Object.assign({}, item);
+
+        if(this.lastSelectedConnection !== null)
         {
-          
-          this.$store.commit("UPDATE_CONNECTION", objNewConnection);
-          listItem.clicked = false;
+          this.lastSelectedConnection.clicked = false;
+          this.$store.commit("UPDATE_CONNECTION", this.lastSelectedConnection);
         }
 
-        item.clicked = !item.clicked;
+        objUpdatedConnection.clicked = !objUpdatedConnection.clicked;
+        this.$store.commit("UPDATE_CONNECTION", objUpdatedConnection);
+      
+        this.lastSelectedConnection = Object.assign({}, item);
       },
 
       makeMessage: function(strSubject, strMessage){
@@ -102,7 +105,6 @@
             });
 
             this.$electron.ipcRenderer.on('classification_results', (event, data) => {
-
               socket.send(
                 this.makeMessage("classification_results", data.message)
               );
