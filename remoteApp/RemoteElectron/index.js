@@ -4,6 +4,7 @@ const ElectronRendererSocketHandler = require("./ElectronRendererSocketHandler.j
 const { ipcRenderer } = require("electron");
 const SimplePeer  = require("simple-peer");
 const remoteWebRTC = require("./remoteWebRTC.js");
+const Predicter = require("./classifier/Predicter");
 
 // Messages that are related with webRTC are handled in remoteWebRTC
 ipcRenderer.on("message-from-centralApp", (event, data) => {
@@ -55,4 +56,7 @@ window.addEventListener('load', function (evt) {
 			console.log('The following error occurred: ' + err.name)
 		})
 	});
+
+	const objPredicter = new Predicter(elVideo);
+	objPredicter.predict();
 })

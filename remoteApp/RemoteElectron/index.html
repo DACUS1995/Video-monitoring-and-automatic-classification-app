@@ -4,13 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0>
     <link rel="stylesheet" type="text/css" href="./static/css/style.css">
-    <link rel="stylesheet" type="text/css" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">    
+    <link rel="stylesheet" type="text/css" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.8.0"></script>
 </head>
 <body>
     <div class="card" style="margin:1%">
         <div class="title card-title">Local Video Stream</div>
         <div class="video-stream">
-            <video style="margin: auto;" id='remoteVideo' width="480" height="320" autoplay></video>
+            <!-- <video style="margin: auto;" id='remoteVideo' width="480" height="320" autoplay></video> -->
+            <video style="margin: auto;" id='remoteVideo' width="480" height="224" autoplay></video>
+            
         </div>
         <div class="instructions">
             <div id="instruction-text" class="instructions-text alert alert-info">

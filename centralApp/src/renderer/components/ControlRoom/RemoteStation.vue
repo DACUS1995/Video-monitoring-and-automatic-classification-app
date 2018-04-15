@@ -104,6 +104,7 @@
               );
             });
 
+            // Route message to the remote renderer Electron process
             this.$electron.ipcRenderer.on('classification_results', (event, data) => {
               socket.send(
                 this.makeMessage("classification_results", data.message)
@@ -141,13 +142,6 @@
         console.log(data);
 
         this.$store.commit("REMOVE_NEW_STATION", data);
-        // for(let i = 0; i < this.remoteList.length; i++)
-        // {
-        //   if(this.remoteList[i].station_id === data)
-        //   {
-        //     this.remoteList.splice(i, 1);
-        //   }
-        // }
       });
     }
   }
