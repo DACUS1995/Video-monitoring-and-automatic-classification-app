@@ -1,0 +1,26 @@
+{
+    "classesNames":[
+        "walking_stick",
+        "wheelchair",
+        "default"
+    ],
+    "classes":[
+        {
+            "walking_stick": {
+                "text": "Go Right",
+                "imagePath": "./static/images/right_arrow.png"
+        }},
+        {
+            "wheelchair": {
+                "text": "Go Left",
+                "imagePath": "./static/images/left_arrow.png"
+            }
+        },
+        {
+            "default": {
+                "text": "Go Forward",
+                "imagePath": "./static/images/forward_arrow.png"
+            }
+        }
+    ]
+}

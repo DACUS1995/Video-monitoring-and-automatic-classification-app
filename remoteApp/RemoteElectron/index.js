@@ -4,7 +4,8 @@ const ElectronRendererSocketHandler = require("./ElectronRendererSocketHandler.j
 const { ipcRenderer } = require("electron");
 const SimplePeer  = require("simple-peer");
 const remoteWebRTC = require("./remoteWebRTC.js");
-const Predicter = require("./classifier/Predicter");
+const TFjsClassifier = require("./classifier/TFjsClassifier");
+const GraphicRouting = require("./GraphicRouting/GraphicRouting");
 
 // Messages that are related with webRTC are handled in remoteWebRTC
 ipcRenderer.on("message-from-centralApp", (event, data) => {
@@ -26,7 +27,9 @@ window.addEventListener('load', function (evt) {
 
 		for(let device of arrDevices)
 		{
-			// Windows only
+			
+
+			// Windows only and only for external classification process
 			if(device.label == "Multisplitter Video Source")
 			{
 				objVideoConstraints = {
@@ -38,10 +41,10 @@ window.addEventListener('load', function (evt) {
 
 		if(objVideoConstraints == null)
 		{
-			throw new Error("Multisplitter Video Source is not available");
+			// throw new Error("Multisplitter Video Source is not available");
 		}
 		
-		navigator.mediaDevices.getUserMedia({audio: false, video: objVideoConstraints})
+		navigator.mediaDevices.getUserMedia({audio: false, video: true /*video: objVideoConstraints*/}) 
 		.then(function (localStream) {
 			elVideo.src = window.URL.createObjectURL(localStream);
 			console.log(`Video Url: ${elVideo.src}`);
@@ -57,6 +60,11 @@ window.addEventListener('load', function (evt) {
 		})
 	});
 
-	const objPredicter = new Predicter(elVideo);
-	objPredicter.predict();
+	// Pass the elDivInstructionContainer to the correct data classfier handlers
+	const elDivInstructionContainer = document.getElementById("instructions-container");
+	const objGraphicRouter = new GraphicRouting(elDivInstructionContainer);
+
+	const objTFjsClassifier = new TFjsClassifier(elVideo, objGraphicRouter);
+	objTFjsClassifier.runClassifier();
+
 })

@@ -70,10 +70,11 @@
     },
     // !! Use the 'mounted' life-cycle hook to trigger updates in renderer based on main events
     mounted () {
-      console.log(this.remoteList);
+      // console.log(this.remoteList);
       this.$electron.ipcRenderer.on('new-connection-setup', (event, data) => {
-        console.log(data);
+        // console.log(data);
         
+        console.log("::Adding new remote station::");
         let objNewConnection = {
           label: data.stationId,
           station_id: data.stationId,
@@ -83,12 +84,16 @@
           video_id: `station_${data.stationId}`
         };
 
+        // Add new station to the central store
         this.$store.commit("ADD_NEW_STATION", objNewConnection);
-        console.log(this.$store.state.Connections.arrConnections);
+        // console.log(this.$store.state.Connections.arrConnections);
 
         // Wait for 5 seconds to make sure the remote electron process has started
         setTimeout(() => {
+          console.log("::Create websocket connection to the remote electron process::");
           let socket = new WebSocket(`ws://${data.address}:4000`);
+
+          // Peer fot the WebRTC peer to peer connection
           let peer2 = new Peer();
 
           // Connection opened
@@ -130,7 +135,6 @@
             // got remote video stream, now let's show it in a video tag
             let video = document.querySelector(`#${objNewConnection.video_id}`);
 
-            console.log(video);
             video.src = window.URL.createObjectURL(stream)
             video.play()
           });

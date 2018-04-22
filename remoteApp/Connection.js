@@ -26,7 +26,8 @@ class Connection
 
 	startVideoClassifier()
 	{
-		this.remoteVideoClassifierProcces = this.objRemoteVideoClassifier.spawnClassificationProcess();
+		// -----> Now we use tensorflow.js for classification, to enable python based tensorflow uncomment this line <-----
+		// this.remoteVideoClassifierProcces = this.objRemoteVideoClassifier.spawnClassificationProcess();
 
 		// It may take some time for the python process to start
 		// so I use setInterval to check if the process handler was created
@@ -71,6 +72,7 @@ class Connection
 
 	/**
 	 * Create the RTC connection beetween the main and remote electron process 
+	 * The RTC signaling was moved in the electron process for less overhead
 	 */
 	makeRTCConnection()
 	{

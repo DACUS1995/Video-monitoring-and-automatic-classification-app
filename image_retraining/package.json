@@ -1,0 +1,14 @@
+{
+  "name": "image_retraining",
+  "version": "1.0.0",
+  "description": "retrain.py is an example script that shows how one can adapt a pretrained\r network for other classification problems. A detailed overview of this script\r can be found at:\r https://codelabs.developers.google.com/codelabs/tensorflow-for-poets/#0",
+  "main": "./tfjs_train/retrainTFJS.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@tensorflow/tfjs": "^0.9.1"
+  }
+}
