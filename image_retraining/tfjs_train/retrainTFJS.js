@@ -1,6 +1,7 @@
 const tf = require("@tensorflow/tfjs");
-const datasetHandler = require("./dataset_handler");
-const imageLoader = require("./ImageLoader");
+const DatasetHandler = require("./dataset_handler");
+const ImageLoader = require("./ImageLoader");
+const config = require("./config");
 
 class retrainTFJS
 {
@@ -8,6 +9,8 @@ class retrainTFJS
     {
         this._mobilenet = null;
         this._model = null;
+        this._datasetHandler = new DatasetHandler(this.constructor.NUM_CLASSES);
+        this._imageLoader = new ImageLoader();
     }
 
     /**
@@ -15,7 +18,7 @@ class retrainTFJS
      */
     async train() 
     {
-        if (controllerDataset.xs == null) 
+        if (this._datasetHandler.xs == null) 
         {
             throw new Error('Add some examples before training!');
         }
@@ -61,14 +64,14 @@ class retrainTFJS
         // number of examples that are collected depends on how many examples the user
         // collects. This allows us to have a flexible batch size.
         const batchSize =
-            Math.floor(controllerDataset.xs.shape[0] * ui.getBatchSizeFraction());
+            Math.floor(this._datasetHandler.xs.shape[0] * ui.getBatchSizeFraction());
         if (!(batchSize > 0)) {
           throw new Error(
               `Batch size is 0 or NaN. Please choose a non-zero fraction.`);
         }
   
     // Train the model! Model.fit() will shuffle xs & ys so we don't have to.
-        model.fit(controllerDataset.xs, controllerDataset.ys, {
+        model.fit(this._datasetHandler.xs, this._datasetHandler.ys, {
           batchSize,
           epochs: ui.getEpochs(),
           callbacks: {
@@ -88,6 +91,8 @@ class retrainTFJS
         const layer = mobilenet.getLayer('conv_pw_13_relu');
         return tf.model({inputs: mobilenet.inputs, outputs: layer.output});
     }
+
+    static get NUM_CLASSES(){return config.classes.length;}
 }
 
 module.exports = retrainTFJS;

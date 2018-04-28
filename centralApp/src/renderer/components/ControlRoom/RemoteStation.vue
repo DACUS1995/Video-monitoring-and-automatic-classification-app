@@ -93,7 +93,7 @@
           console.log("::Create websocket connection to the remote electron process::");
           let socket = new WebSocket(`ws://${data.address}:4000`);
 
-          // Peer fot the WebRTC peer to peer connection
+          // Peer handle for the WebRTC peer to peer connection
           let peer2 = new Peer();
 
           // Connection opened
