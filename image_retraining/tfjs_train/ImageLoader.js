@@ -6,7 +6,7 @@ class ImageLoader
 {
     constructor()
     {
-
+        this._objAvailableImages = {};
     }
 
     /**
@@ -14,21 +14,60 @@ class ImageLoader
      */
     async loadImages()
     {
-
+        if(!Object.keys(this._objAvailableImages).length)
+        {
+            await this._gatherImagesList();
+        }
+        console.log(Object.keys(this._objAvailableImages));
     }
 
-    async gatherImagesList()
+    async _gatherImagesList()
     {
-        for(let strClassName of config.classes)
+        const strImagesPath = path.join(__dirname, config.image_path);
+        
+        if((await fs.stat(strImagesPath)).isDirectory())
         {
-            //Check if images folder is a directory and then get all the file names and push them in an array to use them later when loading them sequentially when training
-            if(await fs.stat.isDirectory())
+            for(let strClassName of config.classes)
+            {
+                //Check if images folder is a directory and then get all the file names and push them in an array to use them later when loading them sequentially when training
+                this._objAvailableImages[strClassName] = [];
+                const strClassFilePath = path.join(strImagesPath, strClassName);
+
+                if((await fs.stat(strClassFilePath)).isDirectory())
+                {
+                    const arrFileNames = await fs.readdir(strClassFilePath);
+
+                    arrFileNames.forEach(async (strImageName) => {
+                        if((await fs.stat(path.join(strClassFilePath, strImageName))).isFile())
+                        {
+                            console.log(path.join(strClassFilePath, strImageName));
+                            this._objAvailableImages[strClassName].push(path.join(strClassFilePath, strImageName));
+                        }
+                        else
+                        {
+                            console.log(`${strImageName} is not a correct image name.`);
+                        }
+                    });
+                }
+                else
+                {
+                    console.log(`${strClassFilePath} is not a correct path.`);
+                }
+            }
+        }
+        else
+        {
+            console.log(`Image directory: ${strImagesPath} is not correct.`);
         }
     }
 }
 
-const config = {
-    
-};
+(new ImageLoader()).loadImages()
+    .then(() => {
+        console.log("Something");
+    })
+    .catch((e) => {
+        console.log(e.stack);
+    });
 
-module.exports = ImageLoader;
+// module.exports = ImageLoader;

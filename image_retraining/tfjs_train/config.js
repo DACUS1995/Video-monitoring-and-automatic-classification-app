@@ -1,8 +1,9 @@
 const config = {
     classes: [
-        "walking-stick",
+        "walking_stick",
         "wheelchair"
-    ]
+    ],
+    image_path: "../Images"
 };
 
 module.exports = config;
