@@ -59,6 +59,8 @@ class ImageLoader
         {
             console.log(`Image directory: ${strImagesPath} is not correct.`);
         }
+
+        return this._objAvailableImages;
     }
 }
 

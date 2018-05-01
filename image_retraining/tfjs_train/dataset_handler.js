@@ -1,4 +1,5 @@
 const tf = require("@tensorflow/tfjs");
+const config = require("./config");
 
 class dataset_handler
 {
@@ -51,4 +52,4 @@ class dataset_handler
     }
 }
 
-module.exports = dataset_handler;
+module.exports = new dataset_handler(config.NUM_CLASSES);
