@@ -1,7 +1,7 @@
-const tf = require("@tensorflow/tfjs");
-const DatasetHandler = require("./dataset_handler");
-const ImageLoader = require("./ImageLoader");
-const config = require("./config");
+// import tf  from "../../node_modules/@tensorflow/tfjs.js";
+import DatasetHandler from "./dataset_handler.js";
+// import ImageLoader from "./ImageLoader.js";
+import config from "./config.js";
 
 class retrainTFJS
 {
@@ -102,4 +102,4 @@ class retrainTFJS
     static get DENSE_UNITS(){return 200;};
 }
 
-module.exports = retrainTFJS;
+export default retrainTFJS;
