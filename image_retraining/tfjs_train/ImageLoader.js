@@ -18,7 +18,8 @@ class ImageLoader
         {
             await this._gatherImagesList();
         }
-        console.log(Object.keys(this._objAvailableImages));
+
+        await fs.writeFile("imageList.json", JSON.stringify(this._objAvailableImages));
     }
 
     async _gatherImagesList()
@@ -37,17 +38,19 @@ class ImageLoader
                 {
                     const arrFileNames = await fs.readdir(strClassFilePath);
 
-                    arrFileNames.forEach(async (strImageName) => {
+                    for(let strImageName of arrFileNames)
+                    {
                         if((await fs.stat(path.join(strClassFilePath, strImageName))).isFile())
                         {
-                            console.log(path.join(strClassFilePath, strImageName));
-                            this._objAvailableImages[strClassName].push(path.join(strClassFilePath, strImageName));
+                            // console.log(path.join(strClassFilePath, strImageName));
+                            this._objAvailableImages[strClassName].push(path.join(strImageName));
                         }
                         else
                         {
                             console.log(`${strImageName} is not a correct image name.`);
                         }
-                    });
+
+                    }
                 }
                 else
                 {

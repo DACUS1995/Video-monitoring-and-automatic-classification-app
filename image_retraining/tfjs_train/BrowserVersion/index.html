@@ -8,12 +8,12 @@
 </head>
 <body>
     <div>
-        <!-- <img id="image_holder" src="../Images/walking_stick/00000000.jpg" alt="Hello darling"> -->
+        <img id="image_holder" src="./Images/walking_stick/00000000.jpg" alt="Hello darling">
     </div>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.10.0"> </script>
     <script type="module">
-        import init from "./main.js"
-        init().then(()=>{console.log("");});
+        import MainTrainer from "./main.js"
+        MainTrainer.init().then(()=>{console.log("");});
     </script>
 </body>
 </html>
