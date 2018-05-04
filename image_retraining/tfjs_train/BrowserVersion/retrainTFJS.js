@@ -10,7 +10,6 @@ class retrainTFJS
         this._mobilenet = null;
         this._model = null;
         this._datasetHandler = DatasetHandler;
-        this._imageLoader = new ImageLoader();
     }
 
     /**
@@ -26,7 +25,7 @@ class retrainTFJS
         // Creates a 2-layer fully connected model. By creating a separate model,
         // rather than adding layers to the mobilenet model, we "freeze" the weights
         // of the mobilenet model, and only train weights from the new model.
-        model = tf.sequential({
+        let model = tf.sequential({
             layers: [
                 // Flattens the input to a vector so we can use it in a dense layer. While
                 // technically a layer, this only performs a reshape (and has no training
@@ -44,7 +43,7 @@ class retrainTFJS
                 // Layer 2. The number of units of the last layer should correspond
                 // to the number of classes we want to predict.
                 tf.layers.dense({
-                    units: NUM_CLASSES,
+                    units: retrainTFJS.NUM_CLASSES,
                     kernelInitializer: 'varianceScaling',
                     useBias: false,
                     activation: 'softmax'
@@ -53,7 +52,7 @@ class retrainTFJS
         });
   
         // Creates the optimizers which drives training of the model.
-        const optimizer = tf.train.adam(ui.getLearningRate());
+        const optimizer = tf.train.adam(0.0001);
         // We use categoricalCrossentropy which is the loss function we use for
         // categorical classification which measures the error between our predicted
         // probability distribution over classes (probability that an input is of each
@@ -80,6 +79,8 @@ class retrainTFJS
                 }
             }
         });
+
+        return model;
     }
 
     async prepareDataset()

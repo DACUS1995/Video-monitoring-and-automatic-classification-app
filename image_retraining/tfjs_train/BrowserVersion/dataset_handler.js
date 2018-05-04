@@ -17,10 +17,9 @@ class dataset_handler
     addExample(example, label)
     {
         // One-hot encoding of the label
-        const y = tf.tidy(() => {
-            tf.tensor1d([label]),
-            this._numClasses
-        });
+        const y = tf.tidy(
+            () => tf.oneHot(tf.tensor1d([label]).toInt(), this._numClasses)
+        );
 
         if (this._xs == null) 
         {
@@ -48,7 +47,7 @@ class dataset_handler
 
     get ys()
     {
-        return this._ys;s
+        return this._ys;
     }
 }
 

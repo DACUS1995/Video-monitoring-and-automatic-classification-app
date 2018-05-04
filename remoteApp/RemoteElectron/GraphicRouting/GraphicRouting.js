@@ -58,7 +58,7 @@ class GraphicRouting extends GraphicRoutingBase
     {
         this._elTextInstruction = document.getElementById("instruction-text");
         this._elGraphicalIntruction = document.getElementById("instruction-image");
-        this._objConfigViews = require("./configViews.json"); //Should implement a safe json parse function
+        this._objConfigViews = require("./configViews.json");
     } 
 }
 

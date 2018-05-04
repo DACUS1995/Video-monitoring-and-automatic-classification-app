@@ -7,13 +7,19 @@
     <title>Document</title>
 </head>
 <body>
-    <div>
-        <img id="image_holder" src="./Images/walking_stick/00000000.jpg" alt="Hello darling">
+    <!-- <div>
+        <img id="image_holder" src="./Images/walking_stick/00000000.jpg" alt="Hello darling" height="224" width="224">
+    </div> -->
+    <div class="video-stream">
+        <!-- <video style="margin: auto;" id='remoteVideo' width="480" height="320" autoplay></video> -->
+        <video style="margin: auto;" id='remoteVideo' width="480" height="224" autoplay></video>
     </div>
+    <div id="image_container"></div>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.10.0"> </script>
     <script type="module">
         import MainTrainer from "./main.js"
         MainTrainer.init().then(()=>{console.log("");});
     </script>
+
 </body>
 </html>

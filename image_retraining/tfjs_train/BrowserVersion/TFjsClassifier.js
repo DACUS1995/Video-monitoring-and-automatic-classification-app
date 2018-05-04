@@ -1,7 +1,6 @@
 "use strict"
 
-const Webcam = require("./Webcam");
-const arrLabels = require("./imagenet_class_index.json");
+import Webcam from "./Webcam.js";
 // const tf = require("@tensorflow/tfjs");
 
 class TFjsClassifier
@@ -10,12 +9,12 @@ class TFjsClassifier
 	 * @param {HTMLVideoElement} webcamElement A HTMLVideoElement representing the webcam feed.
      * @param {GraphicRouting} objGraphicRouter Handles the UI changes based on the classification results
 	 */
-    constructor(webcamElement, objGraphicRouter)
+    constructor(webcamElement, model)
     {
         this._webcam = new Webcam(webcamElement);
-        this._objGraphicRouter = objGraphicRouter;
+        this._webcamElement = webcamElement;
 
-        this._model = null;
+        this._model = model;
         this._mobilenet = null;
         this._bStopClassifing = false;
     }
@@ -25,14 +24,14 @@ class TFjsClassifier
         this._bStopClassifing = true;
         
         console.log("Loading the model.");
-        await this.loadMobilenet();
+        // await this.loadMobilenet();
         
         console.log("Classifing..");
         while(this._bStopClassifing)
         {
             const predictedClass = tf.tidy(() => {
                 // Get frame from webcam
-                const image = this._webcam.capture();
+                const image = this._webcam.capture(this._webcamElement);
     
                 const predictions = this._model.predict(image); //predict is tensorflowjs method atached to the model object
 
@@ -45,9 +44,10 @@ class TFjsClassifier
                 return predictions.as1D().argMax(); // Returns the indices of the maximum values
             });
     
-            const nClassId = (await predictedClass.data())[0];
-            const strClassName = arrLabels[nClassId][1];
-            console.log(strClassName);
+            console.log(await predictedClass);
+            // const nClassId = (await predictedClass.data())[0];
+            // const strClassName = arrLabels[nClassId][1];
+            // console.log(strClassName);
 
             this._objGraphicRouter.updateInterface(strClassName);
             await tf.nextFrame();
@@ -102,4 +102,4 @@ class TFjsClassifier
     static get mobilenetURL() {return "https://storage.googleapis.com/tfjs-models/tfjs/mobilenet_v1_0.25_224/model.json"}
 }
 
-module.exports = TFjsClassifier;
+export default TFjsClassifier;
