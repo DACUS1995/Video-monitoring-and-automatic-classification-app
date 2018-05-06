@@ -47,9 +47,9 @@ class TFjsClassifier
     
             const nClassId = (await predictedClass.data())[0];
             const strClassName = arrLabels[nClassId][1];
-            console.log(strClassName);
+            // console.log(strClassName);
 
-            this._objGraphicRouter.updateInterface(strClassName);
+            this._objGraphicRouter.updateInterface({className: strClassName});
             await tf.nextFrame();
         }
     }

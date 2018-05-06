@@ -31,27 +31,30 @@ class GraphicRouting extends GraphicRoutingBase
             this.setAditionalElements();
         }
 
-        // Stop the automatic rendering of default message
-        if(this._defaultViewTimeoutID !== null)
-        {
-            clearTimeout(this._defaultViewTimeoutID);
-            this._defaultViewTimeoutID = null;
-        }
-
+        
         // Here you should add the detection classes and the specific settings
         if(this._objConfigViews.classesNames.includes(objClassificationResults.className))
         {
+            console.log(objClassificationResults.className);
+            // Stop the automatic rendering of default message
+            if(this._defaultViewTimeoutID !== null)
+            {
+                clearTimeout(this._defaultViewTimeoutID);
+                this._defaultViewTimeoutID = null;
+            }
+
             this._elTextInstruction.innerText = this._objConfigViews.classes[objClassificationResults.className].text;
             this._elGraphicalIntruction.src = this._objConfigViews.classes[objClassificationResults.className].imagePath;
+        
+            this._defaultViewTimeoutID = setTimeout(() =>
+            {
+                // After five seconds if there are no valid classification set the default view
+                this._elTextInstruction.innerText = this._objConfigViews.classes["default"].text;
+                this._elGraphicalIntruction.src = this._objConfigViews.classes["default"].imagePath;
+            }, 
+            5000);
         }
 
-        this._defaultViewTimeoutID = setTimeout(() =>
-        {
-            // After five seconds if there are no valid classification set the default view
-            this._elTextInstruction.innerText = this._objConfigViews.classes["default"].text;
-            this._elGraphicalIntruction.src = this._objConfigViews.classes["default"].imagePath;
-        }, 
-        5000);
     }
 
     setAditionalElements()
