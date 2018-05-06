@@ -40,7 +40,7 @@
     },
     methods: {
       toggle: function (item) {
-        const objUpdatedConnection = Object.assign({}, item);
+        const objUpdatedConnection = { ...item };
 
         if(this.lastSelectedConnection !== null)
         {
@@ -51,7 +51,15 @@
         objUpdatedConnection.clicked = !objUpdatedConnection.clicked;
         this.$store.commit("UPDATE_CONNECTION", objUpdatedConnection);
       
-        this.lastSelectedConnection = Object.assign({}, item);
+        this.lastSelectedConnection = { ...item };
+        this.bringVideoToView(item);
+      },
+
+      bringVideoToView: function(data){
+        const elVideo = document.getElementById(data.video_id);
+        elVideo.scrollIntoView();
+
+        console.log(`::Bringing into view: ${data.video_id}`);
       },
 
       makeMessage: function(strSubject, strMessage){
