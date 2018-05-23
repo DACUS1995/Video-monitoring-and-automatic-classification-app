@@ -73,6 +73,11 @@ class ElectronMainSocketHandler{
             {
                 this.mainWindow.webContents.send(objDecodedMessage.subject, objDecodedMessage);                
             }
+
+            if(objDecodedMessage.subject == "updateViewConfig")
+            {
+                this.mainWindow.webContents.send(objDecodedMessage.subject, objDecodedMessage);                
+            }
         }
         catch(Error)
         {

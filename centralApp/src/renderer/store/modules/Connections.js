@@ -8,7 +8,8 @@ const state =
 		// 	status: "connected",
 		// 	remote_address: "127.0.0.1",
 		// 	clicked: false,
-		// 	video_id: "station_1"
+		// 	video_id: "station_1",
+		//	socket: socket
 		// },
 		// {
 		// 	label: 'Name_2',
@@ -16,7 +17,8 @@ const state =
 		// 	status: 'connection pending',
 		// 	remote_address: "127.0.0.1",
 		// 	clicked: false,
-		// 	video_id: "station_2"
+		// 	video_id: "station_2",
+		//  socket: socket
 		// }
 	]
 }
@@ -51,6 +53,7 @@ const mutations =
 				state.arrConnections[i].status = data.status;
 				state.arrConnections[i].remote_address = data.remote_address;
 				state.arrConnections[i].clicked = data.clicked;
+				state.arrConnections[i].socket = data.socket;
 
 				break;
         	}

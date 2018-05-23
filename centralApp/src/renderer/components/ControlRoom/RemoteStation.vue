@@ -30,13 +30,15 @@
     data () {
       return {
         name: 'Remote Station',
-        lastSelectedConnection: null
+        lastSelectedConnection: null,
+        configViews: null
       }
     },
     computed:{
       remoteList(){
         return this.$store.state.Connections.arrConnections;
-      }
+      },
+
     },
     methods: {
       toggle: function (item) {
@@ -89,7 +91,8 @@
           remote_address: data.address,
           status: "connected",
           clicked: false,
-          video_id: `station_${data.stationId}`
+          video_id: `station_${data.stationId}`,
+          socket: null
         };
 
         // Add new station to the central store
@@ -107,8 +110,23 @@
           // Connection opened
           socket.addEventListener('open', (event) => {
             socket.send(
-                this.makeMessage("first-message", "Connection Established")
-              );
+              this.makeMessage("first-message", "Connection Established")
+            );
+
+            // Register the created socket
+            let objUpdatedConnectionSocket = { ...objNewConnection };
+            objUpdatedConnectionSocket.socket = socket;
+            this.$store.commit("UPDATE_CONNECTION", objUpdatedConnectionSocket);
+
+            // Load the routing config info and send them to every station connected
+            // if(this.configViews)
+            // {
+            //   this.configViews = require("./configViews.json");
+            // }
+
+            // socket.send(
+            //   this.makeMessage("updateConfigViewsJSON", )
+            // );
 
             peer2.on('signal', (data) => {
               console.log("signal");

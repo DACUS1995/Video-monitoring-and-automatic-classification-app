@@ -31,7 +31,10 @@
 		computed: {
 			configuredRoutes(){
 				return this.$store.state.RoutingInfo.arrInfoConfigs;
-			}
+			},
+			remoteList(){
+        return this.$store.state.Connections.arrConnections;
+      }
 		},
 		methods:{
 			saveRoute(route){
@@ -39,16 +42,48 @@
 				//TODO sync the routes with every remoteStation
 
 				let strIndication = document.getElementById(`info_${route.route_id}`).value;
+				let strClassName = null;
+
+				switch(route.route_id)
+				{
+					case 1:
+						strClassName = "tricycle";
+						break;
+					case 2:
+						strClassName = "walking_stick";
+						break;
+					default:
+						strClassName = "default";
+				}
 
 				let objNewConfig = {
 					route_id: route.route_id,
 					route_name: route.route_name,
 					route_description: route.route_description,
-					route_indication: strIndication
+					route_indication: strIndication,
+					class_name: strClassName
 				};
 				
 				this.$store.commit("EDIT_CONFIG", objNewConfig);
-			}
+
+				let objAnvelope = {...objNewConfig};
+
+				for(let remoteStation of this.remoteList)
+				{
+					console.log(`::Updating config view to station: ${remoteStation.label}`);
+					remoteStation.socket.send(
+						this.makeMessage("updateViewConfig", objAnvelope)
+					);
+				}
+			},
+			makeMessage(strSubject, strMessage){
+    		return JSON.stringify(
+    	  	{
+    	  	    subject: strSubject,
+    	  	    message: strMessage
+    	  	}
+    	  );
+    	}
 		}
   }
 </script>

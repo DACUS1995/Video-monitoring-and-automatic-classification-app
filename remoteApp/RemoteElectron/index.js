@@ -16,6 +16,10 @@ ipcRenderer.on("classification_results", (event, data) => {
 	ElectronRendererSocketHandler.handleIncomingMessage(data);	
 });
 
+ipcRenderer.on("updateViewConfig", (event, data) => {
+	ElectronRendererSocketHandler.handleIncomingMessage(data);
+});
+
 window.addEventListener('load', function (evt) {
 	let elVideo = document.getElementById('remoteVideo');
 	let stream;

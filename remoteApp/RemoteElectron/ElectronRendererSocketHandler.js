@@ -2,7 +2,16 @@
 
 class ElectronRendererSocketHandler
 {
-    constructor(){}
+    constructor()
+    {
+    }
+
+    static _setAdditionalElements()
+    {
+        this._elImgInstructionImage = document.getElementById("instruction-image");
+        this._elDivInstructionText = document.getElementById("instruction-text");
+        this._objConfigViews = require("./GraphicRouting/configViews.json");
+    }
 
     /**
      * Decode received message from remote station
@@ -24,6 +33,11 @@ class ElectronRendererSocketHandler
      */
     static handleIncomingMessage(objDecodedMessage)
     {
+        if(!this._bAdditionalElementsSetted)
+        {
+            this._setAdditionalElements();
+        }
+
         if(objDecodedMessage.subject == "log")
         {
             console.log(objDecodedMessage.message);
@@ -34,6 +48,11 @@ class ElectronRendererSocketHandler
             console.log(objDecodedMessage.message);
         }
 
+        if(objDecodedMessage.subject == "updateViewConfig")
+        {
+            this._objConfigViews.classes[objDecodedMessage.message.class_name].text = objDecodedMessage.message.route_indication;     
+        }
+
         if(objDecodedMessage.subject == "classification_results")
         {
             // Stop the automatic rendering of default message
@@ -42,8 +61,8 @@ class ElectronRendererSocketHandler
 
             console.log(`---> Message from classifier: ${JSON.stringify(objDecodedMessage)}`);
 
-            let elImgInstructionImage = document.getElementById("instruction-image");
-            let elDivInstructionText = document.getElementById("instruction-text");
+            let elImgInstructionImage = this._elImgInstructionImage;
+            let elDivInstructionText = this._elDivInstructionText;
 
             console.log(`Detected: [${objDecodedMessage.message.name}]`);
  

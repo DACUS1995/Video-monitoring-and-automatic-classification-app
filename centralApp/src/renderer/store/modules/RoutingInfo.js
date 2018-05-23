@@ -4,16 +4,17 @@ const state =
     [
         {
             route_id: 1,
-            route_name: 'Clasification 1',
-            route_description: 'Description 1',
-            route_indication: 'Indication 1',
+            route_name: 'Wheelchair',
+            route_description: 'People using a wheelchair',
+            route_indication: 'Go Left (Wheelchair detected)',
+            class_name: "tricycle"
         },
         {
             route_id: 2,
-            route_name: 'Clasification 2',
-            route_description: 'Description 2',
-            route_indication: 'Indication 2'
-            
+            route_name: 'Walking stick',
+            route_description: 'People using a walking stick',
+            route_indication: 'Go Right (Walking Stick detected)',
+            class_name: "walking_stick"
         }
     ]
 }
