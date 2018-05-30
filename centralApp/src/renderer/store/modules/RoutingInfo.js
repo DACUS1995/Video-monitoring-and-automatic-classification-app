@@ -15,6 +15,13 @@ const state =
             route_description: 'People using a walking stick',
             route_indication: 'Go Right (Walking Stick detected)',
             class_name: "walking_stick"
+        },
+        {
+            route_id: 3,
+            route_name: 'Default',
+            route_description: 'Ordinary people',
+            route_indication: 'Go Forward',
+            class_name: "default"
         }
     ]
 }
