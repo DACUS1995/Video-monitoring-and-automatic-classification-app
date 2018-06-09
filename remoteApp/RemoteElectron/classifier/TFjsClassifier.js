@@ -2,6 +2,7 @@
 
 const Webcam = require("./Webcam");
 const arrLabels = require("./imagenet_class_index.json");
+const ClassificationAnalyzer = require("./ClassificationAnalyzer");
 // const tf = require("@tensorflow/tfjs");
 
 class TFjsClassifier
@@ -14,6 +15,7 @@ class TFjsClassifier
     {
         this._webcam = new Webcam(webcamElement);
         this._objGraphicRouter = objGraphicRouter;
+        this._objResultAnalyzer = new ClassificationAnalyzer();
 
         this._model = null;
         this._mobilenet = null;
@@ -50,6 +52,8 @@ class TFjsClassifier
             // console.log(strClassName);
 
             this._objGraphicRouter.updateInterface({className: strClassName});
+            this._objResultAnalyzer.analyze({className: strClassName});
+
             await tf.nextFrame();
         }
     }

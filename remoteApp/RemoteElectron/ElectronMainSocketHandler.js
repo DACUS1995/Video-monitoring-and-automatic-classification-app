@@ -103,6 +103,13 @@ class ElectronMainSocketHandler{
                 ElectronMainSocketHandler.makeMessage(objDecodedMessage.subject, objDecodedMessage.message)
             );
         }
+
+        if(objDecodedMessage.subject == "className")
+        {
+            this.ws.send(
+                ElectronMainSocketHandler.makeMessage(objDecodedMessage.subject, objDecodedMessage.message)
+            );
+        }
     }
 }
 

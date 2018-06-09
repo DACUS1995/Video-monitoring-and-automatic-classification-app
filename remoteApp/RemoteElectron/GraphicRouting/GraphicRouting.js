@@ -35,7 +35,7 @@ class GraphicRouting extends GraphicRoutingBase
         // Here you should add the detection classes and the specific settings
         if(this._objConfigViews.classesNames.includes(objClassificationResults.className))
         {
-            console.log(objClassificationResults.className);
+            // console.log(objClassificationResults.className);
             // Stop the automatic rendering of default message
             if(this._defaultViewTimeoutID !== null)
             {

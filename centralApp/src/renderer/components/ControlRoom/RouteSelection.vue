@@ -14,7 +14,8 @@
 						<textarea :id="`info_${item.route_id}`" class="textarea-dinamic"></textarea>
 					</div>
 	     	</div>
-				<button @click="saveRoute(item)" class="btn btn-primary">Save</button>
+					<span><button @click="saveRoute(item)" class="btn btn-primary">Save</button></span>
+					<span v-if="item.route_name !== 'Default'" id="counter-element">Counter: {{item.counter}}</span>
 	  	</li>
 	 	</ul>
 	</div>
@@ -92,6 +93,10 @@
 <style scoped>
 	.route-panel{
 		max-width: 250px;
+	}
+
+	#counter-element{
+		margin-left: 80px;
 	}
 
 	.text-content{

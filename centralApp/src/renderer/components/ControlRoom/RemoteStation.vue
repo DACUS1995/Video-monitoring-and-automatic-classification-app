@@ -38,7 +38,9 @@
       remoteList(){
         return this.$store.state.Connections.arrConnections;
       },
-
+			configuredRoutes(){
+				return this.$store.state.RoutingInfo.arrInfoConfigs;
+			}
     },
     methods: {
       toggle: function (item) {
@@ -153,6 +155,12 @@
             {
               console.log("Signal on peer2 from peer1");
               peer2.signal(objDecodedMessage.message);
+            }
+
+            if(objDecodedMessage.subject == "className")
+            {
+              console.log("[Remove this log] " + objDecodedMessage.message);
+              this.$store.commit("INCREMENT_COUNTER", objDecodedMessage.message);
             }
           });
 
