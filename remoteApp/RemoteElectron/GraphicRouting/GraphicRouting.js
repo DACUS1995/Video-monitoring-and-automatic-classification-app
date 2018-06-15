@@ -15,6 +15,10 @@ class GraphicRouting extends GraphicRoutingBase
 
         this._objConfigViews = null;
         this._defaultViewTimeoutID = null;
+
+        this._bFirstRun = true;
+
+        this.setAditionalElements();
     }
 
     /**
@@ -62,6 +66,15 @@ class GraphicRouting extends GraphicRoutingBase
         this._elTextInstruction = document.getElementById("instruction-text");
         this._elGraphicalIntruction = document.getElementById("instruction-image");
         this._objConfigViews = require("./configViews.json");
+
+        // Check if this is the first time this function is called
+        if(this._bFirstRun)
+        {
+            this._elTextInstruction.innerText = this._objConfigViews.classes.default.text;
+            this._elGraphicalIntruction.src = this._objConfigViews.classes.default.imagePath;
+
+            this._bFirstRun = false;
+        }
     } 
 }
 
