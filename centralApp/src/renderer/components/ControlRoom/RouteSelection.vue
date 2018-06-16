@@ -39,9 +39,6 @@
 		},
 		methods:{
 			saveRoute(route){
-				//TODO save the updated list in a file and update it whenever the save button is clicked
-				//TODO sync the routes with every remoteStation
-
 				let strIndication = document.getElementById(`info_${route.route_id}`).value;
 				let strClassName = null;
 
