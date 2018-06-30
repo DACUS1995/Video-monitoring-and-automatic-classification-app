@@ -73,6 +73,11 @@ class ElectronMainSocketHandler{
             {
                 this.mainWindow.webContents.send(objDecodedMessage.subject, objDecodedMessage);                
             }
+
+            if(objDecodedMessage.subject == "updateViewConfig")
+            {
+                this.mainWindow.webContents.send(objDecodedMessage.subject, objDecodedMessage);                
+            }
         }
         catch(Error)
         {
@@ -94,6 +99,13 @@ class ElectronMainSocketHandler{
         if(objDecodedMessage.subject == "webRTC_Data")
         {
             console.log("webRTC_Data in ElectronMainSocketHandler");
+            this.ws.send(
+                ElectronMainSocketHandler.makeMessage(objDecodedMessage.subject, objDecodedMessage.message)
+            );
+        }
+
+        if(objDecodedMessage.subject == "className")
+        {
             this.ws.send(
                 ElectronMainSocketHandler.makeMessage(objDecodedMessage.subject, objDecodedMessage.message)
             );

@@ -4,7 +4,7 @@
     <div class="title">Streams: </div>
     <ul>
       <li v-for="(item, index) in Connections">
-        <video :id="item.video_id" width="480" height="320" autoplay></video>
+        <video :id="item.video_id" :class="{ 'selectedVideo':item.clicked }" width="480" height="320" autoplay></video>
       </li>
     </ul>
     <!--<video id='localVideo' width="480" height="320" autoplay></video>-->
@@ -34,10 +34,14 @@
     box-shadow: 10px 10px 5px #aaaaaa;
   }
 
-  #localVideo{
+  #localVideo {
     display: block;
     margin-left: auto;
     margin-right: auto;
+  }
+
+  .selectedVideo {
+    background-color: powderblue;
   }
 
   .title {

@@ -30,17 +30,21 @@
     data () {
       return {
         name: 'Remote Station',
-        lastSelectedConnection: null
+        lastSelectedConnection: null,
+        configViews: null
       }
     },
     computed:{
       remoteList(){
         return this.$store.state.Connections.arrConnections;
-      }
+      },
+			configuredRoutes(){
+				return this.$store.state.RoutingInfo.arrInfoConfigs;
+			}
     },
     methods: {
       toggle: function (item) {
-        const objUpdatedConnection = Object.assign({}, item);
+        const objUpdatedConnection = { ...item };
 
         if(this.lastSelectedConnection !== null)
         {
@@ -51,7 +55,15 @@
         objUpdatedConnection.clicked = !objUpdatedConnection.clicked;
         this.$store.commit("UPDATE_CONNECTION", objUpdatedConnection);
       
-        this.lastSelectedConnection = Object.assign({}, item);
+        this.lastSelectedConnection = { ...item };
+        this.bringVideoToView(item);
+      },
+
+      bringVideoToView: function(data){
+        const elVideo = document.getElementById(data.video_id);
+        elVideo.scrollIntoView();
+
+        console.log(`::Bringing into view: ${data.video_id}`);
       },
 
       makeMessage: function(strSubject, strMessage){
@@ -70,32 +82,53 @@
     },
     // !! Use the 'mounted' life-cycle hook to trigger updates in renderer based on main events
     mounted () {
-      console.log(this.remoteList);
+      // console.log(this.remoteList);
       this.$electron.ipcRenderer.on('new-connection-setup', (event, data) => {
-        console.log(data);
+        // console.log(data);
         
+        console.log("::Adding new remote station::");
         let objNewConnection = {
           label: data.stationId,
           station_id: data.stationId,
           remote_address: data.address,
           status: "connected",
           clicked: false,
-          video_id: `station_${data.stationId}`
+          video_id: `station_${data.stationId}`,
+          socket: null
         };
 
+        // Add new station to the central store
         this.$store.commit("ADD_NEW_STATION", objNewConnection);
-        console.log(this.$store.state.Connections.arrConnections);
+        // console.log(this.$store.state.Connections.arrConnections);
 
         // Wait for 5 seconds to make sure the remote electron process has started
         setTimeout(() => {
+          console.log("::Create websocket connection to the remote electron process::");
           let socket = new WebSocket(`ws://${data.address}:4000`);
+
+          // Peer handle for the WebRTC peer to peer connection
           let peer2 = new Peer();
 
           // Connection opened
           socket.addEventListener('open', (event) => {
             socket.send(
-                this.makeMessage("first-message", "Connection Established")
-              );
+              this.makeMessage("first-message", "Connection Established")
+            );
+
+            // Register the created socket
+            let objUpdatedConnectionSocket = { ...objNewConnection };
+            objUpdatedConnectionSocket.socket = socket;
+            this.$store.commit("UPDATE_CONNECTION", objUpdatedConnectionSocket);
+
+            // Load the routing config info and send them to every station connected
+            // if(this.configViews)
+            // {
+            //   this.configViews = require("./configViews.json");
+            // }
+
+            // socket.send(
+            //   this.makeMessage("updateConfigViewsJSON", )
+            // );
 
             peer2.on('signal', (data) => {
               console.log("signal");
@@ -104,6 +137,7 @@
               );
             });
 
+            // Route message to the remote renderer Electron process
             this.$electron.ipcRenderer.on('classification_results', (event, data) => {
               socket.send(
                 this.makeMessage("classification_results", data.message)
@@ -122,6 +156,12 @@
               console.log("Signal on peer2 from peer1");
               peer2.signal(objDecodedMessage.message);
             }
+
+            if(objDecodedMessage.subject == "className")
+            {
+              console.log("[Remove this log] " + objDecodedMessage.message);
+              this.$store.commit("INCREMENT_COUNTER", objDecodedMessage.message);
+            }
           });
 
           peer2.on('stream', function (stream) {
@@ -129,7 +169,6 @@
             // got remote video stream, now let's show it in a video tag
             let video = document.querySelector(`#${objNewConnection.video_id}`);
 
-            console.log(video);
             video.src = window.URL.createObjectURL(stream)
             video.play()
           });
@@ -141,13 +180,6 @@
         console.log(data);
 
         this.$store.commit("REMOVE_NEW_STATION", data);
-        // for(let i = 0; i < this.remoteList.length; i++)
-        // {
-        //   if(this.remoteList[i].station_id === data)
-        //   {
-        //     this.remoteList.splice(i, 1);
-        //   }
-        // }
       });
     }
   }

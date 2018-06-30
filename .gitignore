@@ -1,3 +1,5 @@
 image_retraining/Images
+image_retraining/node_modules
 urls_wheelchairs.txt
 urls_cane.txt
+image_retraining/tfjs_train/BrowserVersion/Images
