@@ -10,4 +10,4 @@ The process of recognising is using the **Tensorflow**  framework to infer the c
 
 This system has two parts:
 * A central application that is used for controling and configuring
-* A remote applcation that can be deployed in the desired places
+* A remote application that can be deployed in the desired places
