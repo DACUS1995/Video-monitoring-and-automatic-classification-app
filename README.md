@@ -12,7 +12,7 @@ This system has two parts:
 * A remote application that can be deployed in the desired places
 
 
-#### Build Setup For Central App
+#### Setup For Central App
 
 ``` bash
 # install dependencies
@@ -30,7 +30,7 @@ npm run lint
 
 ```
 ---
-#### Build Setup For Remote App
+#### Setup For Remote App
 ``` bash
 # install dependencies
 npm install
