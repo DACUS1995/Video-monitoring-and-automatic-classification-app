@@ -1,6 +1,6 @@
 # Video-monitoring-and-automatic-classification-app
 
-This application is meant to be used to monitor and direct people who enter a building based on	specific visual characteristics.
+This application is meant to be used to monitor specific areas and provide a route recommendation for people who enter a building by executing a classification based on specific visual characteristics.
 
 
 The process of classification is using the **Tensorflow**  framework to infer the class in which a captured frame belongs to and is using a MobileNet type of CNN *(Convolutional Neural Network)* called **MobileNet_V1** that can be retrained using transfer learning to the desired outcome.
