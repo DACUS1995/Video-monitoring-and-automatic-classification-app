@@ -2,6 +2,7 @@ const state =
 {
 	arrConnections: 
 	[
+		// Example:
 		// {
 		// 	label: 'Name_1',
 		// 	station_id: 1,
@@ -10,15 +11,6 @@ const state =
 		// 	clicked: false,
 		// 	video_id: "station_1",
 		//	socket: socket
-		// },
-		// {
-		// 	label: 'Name_2',
-		// 	station_id: 2,
-		// 	status: 'connection pending',
-		// 	remote_address: "127.0.0.1",
-		// 	clicked: false,
-		// 	video_id: "station_2",
-		//  socket: socket
 		// }
 	]
 }
@@ -28,12 +20,12 @@ const mutations =
 	REMOVE_NEW_STATION (state, data) 
 	{
 		for(let i = 0; i <state.arrConnections.length; i++)
-        {
-          if(state.arrConnections[i].station_id === data)
-          {
-			state.arrConnections.splice(i, 1);
-          }
-        }
+		{
+			if(state.arrConnections[i].station_id === data)
+			{
+				state.arrConnections.splice(i, 1);
+		  	}
+		}
 	},
 	
 	ADD_NEW_STATION (state, objConnection) 
@@ -46,9 +38,9 @@ const mutations =
 	UPDATE_CONNECTION (state, data)
 	{
 		for(let i = 0; i <state.arrConnections.length; i++)
-        {
-        	if(state.arrConnections[i].station_id === data.station_id)
-        	{
+		{
+			if(state.arrConnections[i].station_id === data.station_id)
+			{
 				state.arrConnections[i].label = data.label;
 				state.arrConnections[i].status = data.status;
 				state.arrConnections[i].remote_address = data.remote_address;
@@ -56,8 +48,8 @@ const mutations =
 				state.arrConnections[i].socket = data.socket;
 
 				break;
-        	}
-        }
+			}
+		}
 	}
 }
   
