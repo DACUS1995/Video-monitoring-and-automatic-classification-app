@@ -12,7 +12,7 @@
   "dependencies": {
     "@tensorflow/tfjs": "^0.9.1",
     "electron-webrtc": "^0.3.0",
-    "express": "^4.16.2",
+    "express": "^4.17.3",
     "install": "^0.10.4",
     "node-fetch": "^2.1.2",
     "npm": "^5.6.0",
